@@ -91,6 +91,26 @@ export interface TapInResult {
   newly_unlocked: Location[]
 }
 
+export type NotificationType = 'tap_in' | 'streak_warning' | 'unlock'
+
+/** A row in `notifications` (named to avoid clashing with the DOM's Notification). */
+export interface AppNotification {
+  id: string
+  user_id: UserId
+  type: NotificationType
+  payload: Record<string, unknown>
+  read: boolean
+  created_at: string
+}
+
+/** Payload tap_in() writes for the keychain owner. */
+export interface TapInNotificationPayload {
+  tap_in_id: string
+  /** The person who scanned the keychain. */
+  from_id: UserId
+  from_nickname: string
+}
+
 export type KeychainStatus = 'not_found' | 'inactive' | 'unclaimed' | 'mine' | 'owned'
 
 /** The public slice of the owner's profile that keychain_lookup() exposes, even logged out. */
