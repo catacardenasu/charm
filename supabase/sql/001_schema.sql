@@ -16,7 +16,7 @@ create table public.profiles (
   year       text,
   interests  text[] not null default '{}',
   greeting   text,
-  avatar     jsonb not null default '{}'::jsonb,  -- {skin, hair, outfit, accessory, item}
+  avatar     jsonb not null default '{}'::jsonb,  -- {skin, hairStyle, hairColor, outfit, hat, accessory}
   points     int not null default 0,
   created_at timestamptz not null default now()
 );
@@ -212,7 +212,7 @@ values ('plaza', 'Plaza of the Americas', 0, 0);
 
 create table public.cosmetics (
   id     text primary key,
-  slot   text not null check (slot in ('hair', 'outfit', 'accessory', 'item')),
+  slot   text not null check (slot in ('hair', 'outfit', 'accessory', 'hat')),
   name   text not null,
   price  int not null check (price >= 0),
   sprite text not null  -- path under /public/sprites/

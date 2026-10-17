@@ -5,15 +5,28 @@
 /** Auth0 `sub`, e.g. 'google-oauth2|1234'. Not a UUID. */
 export type UserId = string
 
-export type CosmeticSlot = 'hair' | 'outfit' | 'accessory' | 'item'
+export type CosmeticSlot = 'hair' | 'outfit' | 'accessory' | 'hat'
 
-/** Sprite ids for each layer, stacked skin → outfit → hair → accessory → item. */
+/** Skin tones, named after the hair sheets in Figma. */
+export type SkinTone = 'pale' | 'tan' | 'dark'
+
+export type HairColor = 'brown' | 'black' | 'blonde' | 'red' | 'blue' | 'purple' | 'pink' | 'green'
+
+/**
+ * A Charmling. Layers stack base → outfit → hat → accessory.
+ * The base (body + skin + hair) is one cell of the hair sheet for skin + hairColor.
+ */
 export interface Avatar {
-  skin: string
-  hair: string
-  outfit: string
+  skin: SkinTone
+  /** Hairstyle column on the hair sheet, 1–12. */
+  hairStyle: number
+  hairColor: HairColor
+  /** 'basic-01'…'basic-24' or 'special-<name>'. Special fits aren't drawn yet. */
+  outfit: string | null
+  /** e.g. 'gator'. Not drawn yet. */
+  hat: string | null
+  /** e.g. 'heart-glasses'. Not drawn yet. */
   accessory: string | null
-  item: string | null
 }
 
 export interface Profile {
