@@ -1,0 +1,133 @@
+.stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--color-bg);
+  contain: layout paint;
+}
+
+/* The map in Figma frame space (402x784), scaled to cover the screen. */
+.art {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+  pointer-events: none;
+}
+
+.layer {
+  position: absolute;
+  overflow: hidden;
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  display: block;
+  max-width: none;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.debug {
+  position: absolute;
+  border: 1px solid rgb(255 0 255 / 0.9);
+  background: rgb(255 0 255 / 0.18);
+}
+
+/* Moved with translate3d from PlazaScene.tsx. Hidden until the scene knows its size. */
+.walker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(var(--avatar-cell-width) * var(--avatar-scale-plaza));
+  height: calc(var(--avatar-cell-height) * var(--avatar-scale-plaza));
+  visibility: hidden;
+  will-change: transform;
+}
+
+.ready .walker {
+  visibility: visible;
+}
+
+.person {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.person:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline-offset: var(--space-2);
+  border-radius: var(--radius-8);
+}
+
+/* Two-frame hop while walking: one art pixel up and down. */
+.figure {
+  display: block;
+  pointer-events: none;
+}
+
+.walker[data-walking] .figure {
+  animation: hop 0.4s steps(1, end) infinite;
+}
+
+@keyframes hop {
+  50% {
+    transform: translateY(calc(-1px * var(--avatar-scale-plaza)));
+  }
+}
+
+.flame {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-bottom: calc(var(--space-2) * -1);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+/* At risk: last week's streak, not kept up yet this week. A dim, grey flame that sputters. */
+.atRisk {
+  filter: grayscale(0.85) brightness(0.65);
+  animation: sputter 1.2s steps(1, end) infinite;
+}
+
+@keyframes sputter {
+  0% {
+    opacity: 0.85;
+  }
+  25% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  75% {
+    opacity: 0.3;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .walker[data-walking] .figure,
+  .atRisk {
+    animation: none;
+  }
+
+  .atRisk {
+    opacity: 0.6;
+  }
+}
