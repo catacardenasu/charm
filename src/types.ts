@@ -21,11 +21,11 @@ export interface Avatar {
   /** Hairstyle column on the hair sheet, 1–12. */
   hairStyle: number
   hairColor: HairColor
-  /** 'basic-01'…'basic-24' or 'special-<name>'. Special fits aren't drawn yet. */
+  /** 'basic-01'…'basic-24' or 'special-<name>', e.g. 'special-flannel'. */
   outfit: string | null
-  /** e.g. 'gator'. Not drawn yet. */
+  /** e.g. 'gator'. */
   hat: string | null
-  /** e.g. 'heart-glasses'. Not drawn yet. */
+  /** e.g. 'heart-glasses'. */
   accessory: string | null
 }
 

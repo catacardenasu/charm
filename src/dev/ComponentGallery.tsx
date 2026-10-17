@@ -70,9 +70,41 @@ const AVATAR_COMBOS: Array<{ name: string; avatar: AvatarData }> = [
 
 const AVATAR_EDGE_CASES: Array<{ name: string; avatar: AvatarData }> = [
   { name: 'outfit: null', avatar: avatar({ hairStyle: 7, hairColor: 'red', outfit: null }) },
-  { name: 'special fit (skipped)', avatar: avatar({ skin: 'tan', outfit: 'special-flannel' }) },
-  { name: 'hat + accessory (skipped)', avatar: avatar({ skin: 'dark', hat: 'gator', accessory: 'heart-glasses' }) },
+  { name: 'unknown outfit (skipped)', avatar: avatar({ skin: 'tan', outfit: 'special-cape' }) },
+  { name: 'unknown hat + accessory (skipped)', avatar: avatar({ skin: 'dark', hat: 'crown', accessory: 'monocle' }) },
   { name: 'bad hairStyle (no base)', avatar: avatar({ hairStyle: 99, outfit: 'basic-09' }) },
+]
+
+const SKIN_ORDER: SkinTone[] = ['pale', 'tan', 'dark']
+const HAT_IDS = ['beanie', 'blue-cap', 'bucket', 'cowboy', 'cream-cap', 'gator', 'grad-cap', 'red-beanie', 'straw']
+const ACCESSORY_IDS = ['blush', 'eyepatch', 'face-paint', 'freckles', 'gator-sunglasses', 'heart-glasses', 'round-glasses', 'sunglasses', 'square-glasses']
+const SPECIAL_IDS = ['black-dress', 'flannel', 'hawaiian', 'gym', 'suit', 'astronaut', 'pajamas', 'lab-coat', 'gator-costume']
+const HAIR_STYLES_FOR_PARTS = [1, 6, 8, 3, 10, 12, 4, 7, 11]
+
+// Each part on all three skin tones, so mismatches on tan and dark skin are easy to spot.
+const partRows = (ids: string[], key: 'hat' | 'accessory' | 'outfit') =>
+  ids.map((id, i) => ({
+    id,
+    avatars: SKIN_ORDER.map((skin) =>
+      avatar({
+        skin,
+        hairStyle: HAIR_STYLES_FOR_PARTS[i],
+        hairColor: AVATAR_HAIR[i % AVATAR_HAIR.length],
+        outfit: key === 'outfit' ? `special-${id}` : `basic-${String(i * 2 + 1).padStart(2, '0')}`,
+        hat: key === 'hat' ? id : null,
+        accessory: key === 'accessory' ? id : null,
+      }),
+    ),
+  }))
+
+const HAT_ROWS = partRows(HAT_IDS, 'hat')
+const ACCESSORY_ROWS = partRows(ACCESSORY_IDS, 'accessory')
+const SPECIAL_ROWS = partRows(SPECIAL_IDS, 'outfit')
+
+const AVATAR_OUTFITS: Array<{ name: string; avatar: AvatarData }> = [
+  { name: 'gator hat · gator sunglasses · gator costume', avatar: avatar({ skin: 'tan', hairStyle: 2, hairColor: 'green', outfit: 'special-gator-costume', hat: 'gator', accessory: 'gator-sunglasses' }) },
+  { name: 'grad cap · round glasses · suit', avatar: avatar({ skin: 'dark', hairStyle: 9, hairColor: 'black', outfit: 'special-suit', hat: 'grad-cap', accessory: 'round-glasses' }) },
+  { name: 'straw hat · heart glasses · hawaiian', avatar: avatar({ skin: 'pale', hairStyle: 7, hairColor: 'blonde', outfit: 'special-hawaiian', hat: 'straw', accessory: 'heart-glasses' }) },
 ]
 
 function Section({ title, children }: { title: string; children: ReactNode }) {
@@ -168,6 +200,31 @@ export default function ComponentGallery() {
             ))}
           </div>
         </Variant>
+        <Variant name="full outfits (profile size)" row>
+          {AVATAR_OUTFITS.map(({ name, avatar: a }, i) => (
+            <Avatar key={name} avatar={a} idle={avatarIdle} idleOffset={i * 0.3} label={name} />
+          ))}
+        </Variant>
+        {[
+          { title: 'hats · pale / tan / dark', rows: HAT_ROWS },
+          { title: 'accessories · pale / tan / dark', rows: ACCESSORY_ROWS },
+          { title: 'special fits · pale / tan / dark', rows: SPECIAL_ROWS },
+        ].map(({ title, rows }) => (
+          <Variant key={title} name={title}>
+            <div className={styles.partGrid}>
+              {rows.map(({ id, avatars }) => (
+                <figure key={id} className={styles.partCell}>
+                  <div className={styles.partAvatars}>
+                    {avatars.map((a) => (
+                      <Avatar key={a.skin} avatar={a} size="plaza" idle={false} />
+                    ))}
+                  </div>
+                  <figcaption>{id}</figcaption>
+                </figure>
+              ))}
+            </div>
+          </Variant>
+        ))}
         <Variant name="missing layers are skipped">
           <div className={styles.avatarGrid}>
             {AVATAR_EDGE_CASES.map(({ name, avatar: a }) => (

@@ -24,11 +24,41 @@ const HAIR_COLORS: readonly HairColor[] = ['brown', 'black', 'blonde', 'red', 'b
 const HAIR_STYLE_COUNT = 12
 const BASIC_OUTFIT = /^basic-(0[1-9]|1\d|2[0-4])$/
 
-// Sprites that exist on the shared 21x31 canvas. Add ids here as they're exported from Figma
+// Sprites that exist on the shared 21x31 canvas, exported from the "Avatar Parts" page in Figma
 // into /public/sprites/avatar/{hat,accessory,outfit}/<id>.png. Anything not listed is skipped.
-const SPECIAL_OUTFITS: ReadonlySet<string> = new Set<string>()
-const HATS: ReadonlySet<string> = new Set<string>()
-const ACCESSORIES: ReadonlySet<string> = new Set<string>()
+const SPECIAL_OUTFITS: ReadonlySet<string> = new Set([
+  'special-black-dress',
+  'special-flannel',
+  'special-hawaiian',
+  'special-gym',
+  'special-suit',
+  'special-astronaut',
+  'special-pajamas',
+  'special-lab-coat',
+  'special-gator-costume',
+])
+const HATS: ReadonlySet<string> = new Set([
+  'beanie',
+  'blue-cap',
+  'bucket',
+  'cowboy',
+  'cream-cap',
+  'gator',
+  'grad-cap',
+  'red-beanie',
+  'straw',
+])
+const ACCESSORIES: ReadonlySet<string> = new Set([
+  'blush',
+  'eyepatch',
+  'face-paint',
+  'freckles',
+  'gator-sunglasses',
+  'heart-glasses',
+  'round-glasses',
+  'sunglasses',
+  'square-glasses',
+])
 
 function outfitSrc(outfit: string | null): string | null {
   if (!outfit) return null
