@@ -1,0 +1,96 @@
+/* Figma "Plaza Options": title, intro, then 96px cards 25px apart. */
+.screen {
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: calc(var(--safe-top) + var(--space-12)) var(--space-14) var(--space-24);
+  background: var(--color-bg);
+}
+
+.title {
+  font-size: var(--font-size-64);
+  color: var(--color-secondary);
+}
+
+.intro {
+  margin-top: var(--space-4);
+  font-size: var(--font-size-20);
+  color: var(--color-secondary);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-24);
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-12);
+  min-height: 96px;
+  padding: var(--space-6) var(--space-14) var(--space-6) var(--space-12);
+}
+
+.thumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 84px;
+  height: 84px;
+  overflow: hidden;
+  border-radius: var(--radius-8);
+}
+
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.locked {
+  background: var(--color-primary);
+}
+
+.thumb .lock {
+  width: 21px;
+  height: 24px;
+  object-fit: fill;
+  image-rendering: pixelated;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: var(--font-size-16);
+  line-height: 1;
+}
+
+.description {
+  font-size: var(--font-size-12);
+}
+
+.badge {
+  width: 71px;
+  padding: 0;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

@@ -74,6 +74,17 @@ export interface PairStreak {
   first_met: string
 }
 
+/** Someone in the plaza you're looking at: a friend with a pair streak, or someone you've met. */
+export interface PlazaPerson {
+  id: UserId
+  nickname: string
+  avatar: Avatar
+  /** Current pair streak with the viewer, in weeks. 0 = no streak, no flame. */
+  streak_weeks: number
+  /** Last week's streak that hasn't been kept up yet this week. Shows the dim, flickering flame. */
+  at_risk: boolean
+}
+
 export interface Location {
   id: string
   name: string
