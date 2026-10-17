@@ -1,6 +1,7 @@
 // Component gallery at /dev: every UI component with every variant and state, for checking against Figma on a phone.
 import { useState, type ReactNode } from 'react'
 import { Avatar } from '../components/Avatar.tsx'
+import { AvatarCreator } from '../components/AvatarCreator.tsx'
 import { mockProfiles } from '../data/mock.ts'
 import type { Avatar as AvatarData, HairColor, SkinTone } from '../types.ts'
 import {
@@ -143,6 +144,7 @@ export default function ComponentGallery() {
   const [avatarSkin, setAvatarSkin] = useState<SkinTone>('pale')
   const [avatarHair, setAvatarHair] = useState<HairColor>('brown')
   const [avatarIdle, setAvatarIdle] = useState(true)
+  const [creatorAvatar, setCreatorAvatar] = useState<AvatarData>(() => avatar({ outfit: 'basic-01' }))
 
   const toggleInterest = (name: string) =>
     setInterests((list) => (list.includes(name) ? list.filter((i) => i !== name) : [...list, name]))
@@ -244,6 +246,12 @@ export default function ComponentGallery() {
               </figure>
             ))}
           </div>
+        </Variant>
+      </Section>
+
+      <Section title="AvatarCreator">
+        <Variant name="Build your Charmling (tabs: skin, hair color, clothing note · arrows: hairstyle)">
+          <AvatarCreator value={creatorAvatar} onChange={setCreatorAvatar} />
         </Variant>
       </Section>
 

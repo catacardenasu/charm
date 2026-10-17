@@ -1,0 +1,95 @@
+.creator {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  width: 100%;
+}
+
+/* Preview panel: 375x299 in Figma. The avatar is drawn at 8x (168x248) like the Figma frame. */
+.preview {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 299px;
+  border-radius: var(--radius-8);
+  background: var(--color-panel);
+}
+
+.avatar.avatar {
+  --avatar-scale: 8;
+}
+
+.arrow {
+  composes: pressable from './ui/shared.module.css';
+  position: absolute;
+  top: 50%;
+  left: auto;
+  right: var(--space-8);
+  width: 73px;
+  height: 60px;
+  margin-top: -30px;
+}
+
+.arrowImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: url('/sprites/ui/arrow-right.png') center / contain no-repeat;
+  image-rendering: pixelated;
+}
+
+.previous {
+  right: auto;
+  left: var(--space-8);
+}
+
+/* The left arrow is the right one mirrored. Flipped on the inner span so the button's press transform still works. */
+.previous .arrowImage {
+  transform: scaleX(-1);
+}
+
+.swatches {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.skins {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.hairColors {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.swatch.swatch {
+  width: 100%;
+  min-width: 0;
+}
+
+.note {
+  margin: 0;
+  padding: var(--space-14) var(--space-24);
+  border: var(--border-width) solid var(--color-bg-dark);
+  border-radius: var(--radius-pill);
+  background: var(--color-bg);
+  color: var(--color-text-dark);
+  font-family: var(--font-body);
+  font-size: var(--font-size-16);
+  text-align: center;
+}
+
+.note b {
+  color: var(--color-secondary);
+  font-weight: var(--font-weight-regular);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
