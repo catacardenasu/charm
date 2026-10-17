@@ -72,13 +72,14 @@ export const mockProfiles: Profile[] = [
 ]
 
 export const mockLocations: Location[] = [
-  { id: 'plaza-of-the-americas', name: 'Plaza of the Americas', unlock_at: 0, sort: 0 },
+  { id: 'plaza', name: 'Plaza of the Americas', unlock_at: 0, sort: 0 },
   { id: 'century-tower', name: 'Century Tower', unlock_at: 3, sort: 1 },
 ]
 
 /** Natalia tapping in with Maya: second week of their streak, unlocking Century Tower. */
 export const mockTapInResult: TapInResult = {
   status: 'ok',
+  tap_in_id: '00000000-0000-4000-8000-000000000001',
   other: mockProfiles[1],
   shared_interests: ['coffee'],
   streak_weeks: 2,
