@@ -83,6 +83,10 @@ export interface PlazaPerson {
   streak_weeks: number
   /** Last week's streak that hasn't been kept up yet this week. Shows the dim, flickering flame. */
   at_risk: boolean
+  /** From usePlaza (optional so mock data still type-checks). */
+  greeting?: string | null
+  /** 'YYYY-MM-DD' of the last tap in. From usePlaza. */
+  last_met?: string
 }
 
 export interface Location {
