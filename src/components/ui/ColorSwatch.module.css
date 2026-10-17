@@ -1,0 +1,53 @@
+.swatch {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  padding: var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--color-bg-dark);
+}
+
+.button {
+  composes: pressable hitArea from './shared.module.css';
+}
+
+.fill {
+  flex: 1;
+  border-radius: var(--radius-pill);
+}
+
+.sm {
+  width: 35px;
+  height: 20px;
+  padding: calc(var(--space-2) / 2);
+}
+
+.md {
+  width: 90px;
+  height: 52px;
+}
+
+.lg {
+  width: 113px;
+  height: 64px;
+}
+
+.check {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-bg-dark);
+  color: var(--color-secondary);
+  transform: translate(-50%, -50%);
+}
+
+.check svg {
+  width: 10px;
+  height: 9px;
+}

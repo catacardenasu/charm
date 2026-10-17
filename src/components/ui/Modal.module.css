@@ -1,0 +1,69 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--safe-top) calc(var(--safe-right) + var(--space-14)) var(--safe-bottom)
+    calc(var(--safe-left) + var(--space-14));
+  background: var(--color-overlay);
+}
+
+.panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-14);
+  width: 100%;
+  max-width: calc(var(--app-max-width) - 2 * var(--space-14));
+  max-height: 100%;
+  overflow-y: auto;
+  padding: var(--space-24) var(--space-14) var(--space-14);
+  border-radius: var(--radius-16);
+  background: var(--color-bg);
+  color: var(--color-text);
+  box-shadow: inset 0 0 0 var(--border-width) var(--color-border);
+}
+
+.panel:focus {
+  outline: none;
+}
+
+.title {
+  margin: 0;
+  padding: 0 var(--space-24);
+  font-family: var(--font-display);
+  font-size: var(--font-size-32);
+  text-align: center;
+}
+
+.body {
+  font-family: var(--font-body);
+  font-size: var(--font-size-16);
+  text-align: center;
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-10);
+}
+
+.actions > * {
+  flex: 1;
+}
+
+.close {
+  composes: pressable from './shared.module.css';
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tap-target);
+  height: var(--tap-target);
+  font-family: var(--font-body);
+  font-size: var(--font-size-24);
+  color: var(--color-secondary);
+}

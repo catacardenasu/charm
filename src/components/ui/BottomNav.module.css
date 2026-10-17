@@ -1,0 +1,35 @@
+/* Figma: 402x90 bar, five 72x50 items starting at y=21, 8px apart */
+.nav {
+  display: grid;
+  grid-template-columns: repeat(5, 72px);
+  justify-content: center;
+  gap: var(--space-8);
+  width: 100%;
+  padding: var(--space-20) 0;
+  background: var(--color-bg-dark);
+}
+
+.item {
+  composes: pressable from './shared.module.css';
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  height: 50px;
+  color: var(--color-text-muted);
+  font-family: var(--font-display);
+  font-size: var(--font-size-14);
+  line-height: 1;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.active {
+  color: var(--color-primary);
+}
