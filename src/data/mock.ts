@@ -159,6 +159,7 @@ export function mockPlaza(locationId: string): PlazaPerson[] {
 /** Natalia tapping in with Maya: second week of their streak, unlocking Century Tower. */
 export const mockTapInResult: TapInResult = {
   status: 'ok',
+  tap_in_id: '00000000-0000-4000-8000-000000000001',
   other: mockProfiles[1],
   shared_interests: ['coffee'],
   streak_weeks: 2,

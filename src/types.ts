@@ -106,9 +106,54 @@ export type TapInStatus = 'ok' | 'already_today'
 /** What rpc('tap_in', { code }) returns. On 'already_today', points_earned is 0 and nothing unlocks. */
 export interface TapInResult {
   status: TapInStatus
+  /** Today's tap in for this pair; sent to /api/prompt. */
+  tap_in_id: string
   other: Profile
   shared_interests: string[]
   streak_weeks: number
   points_earned: number
   newly_unlocked: Location[]
 }
+
+export type NotificationType = 'tap_in' | 'streak_warning' | 'unlock'
+
+/** A row in `notifications` (named to avoid clashing with the DOM's Notification). */
+export interface AppNotification {
+  id: string
+  user_id: UserId
+  type: NotificationType
+  payload: Record<string, unknown>
+  read: boolean
+  created_at: string
+}
+
+/** Payload tap_in() writes for the keychain owner. */
+export interface TapInNotificationPayload {
+  tap_in_id: string
+  /** The person who scanned the keychain. */
+  from_id: UserId
+  from_nickname: string
+}
+
+export type KeychainStatus = 'not_found' | 'inactive' | 'unclaimed' | 'mine' | 'owned'
+
+/** The public slice of the owner's profile that keychain_lookup() exposes, even logged out. */
+export type KeychainOwner = Pick<Profile, 'nickname' | 'avatar'>
+
+/** What rpc('keychain_lookup', { p_code }) returns (supabase/sql/002_keychains.sql). */
+export interface KeychainLookup {
+  status: KeychainStatus
+  has_profile: boolean
+  /** Only present when status is 'mine' or 'owned'. */
+  owner?: KeychainOwner
+}
+
+/** What rpc('claim_keychain', { p_code }) returns in `status`. */
+export type ClaimKeychainStatus =
+  | 'claimed'
+  | 'no_profile'
+  | 'not_found'
+  | 'inactive'
+  | 'mine'
+  | 'owned'
+  | 'already_have_one'
