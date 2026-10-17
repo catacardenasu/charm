@@ -67,14 +67,14 @@ Never commit `.env.local`. Never log keys or tokens.
 ## Data model (Supabase, schema `public`)
 RLS is **on for every table**. Write policies with `auth.jwt()->>'sub'`. All app writes that change points, streaks or tap ins go through `security definer` functions, never direct client inserts.
 
-- `profiles`: `id text pk` (Auth0 sub), `nickname`, `major`, `year`, `interests text[]`, `greeting`, `avatar jsonb` (`{skin, hair, outfit, accessory, item}`), `points int default 0`, `created_at`
+- `profiles`: `id text pk` (Auth0 sub), `nickname`, `major`, `year`, `interests text[]`, `greeting`, `avatar jsonb` (`{skin, hairStyle, hairColor, outfit, hat, accessory}`), `points int default 0`, `created_at`
 - `keychains`: `code text pk`, `owner_id text null references profiles`, `active bool default true`, `claimed_at`
 - `tap_ins`: `id uuid pk`, `user_a text`, `user_b text` (always `user_a < user_b`), `scanner_id text` (whose phone), `keychain_code text`, `day date`, `prompt text`, `removed bool default false`, `created_at`. **Unique on `(user_a, user_b, day)`**, which enforces the once-a-day rule in the database.
 - `pair_streaks`: `user_a`, `user_b` (pk together, ordered), `weeks int` (current streak length in weeks), `last_week date` (Monday of the last week they tapped in), `last_day date`, `first_met date`
 - `notifications`: `id`, `user_id text`, `type` (`tap_in`, `streak_warning`, `unlock`), `payload jsonb`, `read bool`, `created_at`. **Realtime is on for this table**, which is how the keychain owner's phone updates instantly.
 - `memories`: `id`, `tap_in_id`, `uploader_id`, `storage_path`, `created_at`
 - `locations`: `id text pk`, `name`, `unlock_at int` (number of **unique people met** required), `sort`. Seeded with campus landmarks Natalia draws (e.g. Plaza of the Americas = 0, Century Tower, Turlington, a lake scene); final list and thresholds come from the art.
-- `cosmetics`: `id`, `slot` (hair/outfit/accessory/item), `name`, `price int`, `sprite`; `owned_cosmetics`: `user_id`, `cosmetic_id`
+- `cosmetics`: `id`, `slot` (hair/outfit/accessory/hat), `name`, `price int`, `sprite`; `owned_cosmetics`: `user_id`, `cosmetic_id`
 
 Storage bucket `memories` is **private**. Path: `memories/{tap_in_id}/{uploader_id}.jpg`. Only the two people in that tap in can read it (storage RLS); show it with signed URLs. Compress images client-side before upload.
 
@@ -104,7 +104,7 @@ Storage bucket `memories` is **private**. Path: `memories/{tap_in_id}/{uploader_
 
 ## UI and art conventions
 - Build screens from Natalia's Figma frames, using the Figma MCP when it's connected. Match spacing, colors and type exactly. Put design tokens (colors, fonts, spacing) in one CSS variables file.
-- Pixel art: sprites go in `/public/sprites/`. Avatars are layered PNGs (skin, then outfit, hair, accessory, item) stacked with absolute positioning, using `image-rendering: pixelated` and integer scaling only.
+- Pixel art: sprites go in `/public/sprites/`. Avatars are layered PNGs on a shared 21×31 canvas, stacked base → outfit → hat → accessory with absolute positioning, using `image-rendering: pixelated` and integer scaling only. The base (body + skin + hair) comes from the hair sheet for that skin and hair color (`/public/sprites/avatar/base/{skin}-{hairColor}.png`, 12 hairstyles across; top row full body, bottom row head only). Outfits (`basic-*`, `special-*`), hats and accessories are in `/public/sprites/avatar/{outfit,hat,accessory}/`, exported from the "Avatar Parts" page in Figma (168×248 frames, 8px = 1 art pixel). A new part only draws once its id is added to the lists in `src/components/Avatar.tsx`. Render avatars with that component.
 - Plaza: avatars wander with simple random walks and idle animations (2–4 frames). Use CSS transforms, not canvas, unless there's a performance problem. Streak flames sit above avatars.
 - Design mobile-first at 390px width. Respect iOS safe areas (`env(safe-area-inset-*)`).
 - Use a pixel font for headings and a readable body font.

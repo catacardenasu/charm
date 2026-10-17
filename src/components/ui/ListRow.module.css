@@ -1,0 +1,63 @@
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-10);
+  width: 100%;
+  height: 50px;
+  padding: 0 var(--space-14) 0 var(--space-10);
+  border-radius: var(--radius-8);
+  background: var(--color-secondary);
+  color: var(--color-text-dark);
+  font-family: var(--font-display);
+  line-height: 1;
+}
+
+.button {
+  composes: pressable from './shared.module.css';
+  text-align: left;
+}
+
+.highlighted {
+  background: var(--color-primary);
+}
+
+.rank {
+  width: 22px;
+  flex-shrink: 0;
+  font-size: var(--font-size-20);
+}
+
+.avatar {
+  width: 47px;
+  height: 31px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  image-rendering: pixelated;
+}
+
+/* Streak rows: no rank column and a wider gap after the avatar */
+.noRank .avatar {
+  margin-right: var(--space-10);
+}
+
+.name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  font-size: var(--font-size-24);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.value {
+  flex-shrink: 0;
+  font-size: var(--font-size-24);
+  text-align: right;
+}
