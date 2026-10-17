@@ -1,6 +1,8 @@
--- Rename the cosmetics 'item' slot to 'hat': the art has hats, not items.
--- For databases where 001_schema.sql was run before this change. On a fresh database
--- (001 already says 'hat') this does nothing, so it's always safe to run.
+-- WHEN TO RUN: only if you already pasted the OLD 001_schema.sql (the one with 'item')
+-- into Supabase. Paste this once in the SQL Editor after it. If you're setting up a fresh
+-- database with the current 001, you can skip this file (running it anyway does nothing).
+--
+-- Renames the cosmetics 'item' slot to 'hat': the art has hats, not items.
 
 alter table public.cosmetics drop constraint if exists cosmetics_slot_check;
 
