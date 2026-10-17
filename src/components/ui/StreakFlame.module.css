@@ -1,0 +1,59 @@
+.flame {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  font-family: var(--font-display);
+  line-height: 1;
+}
+
+.icon {
+  image-rendering: pixelated;
+}
+
+.orange {
+  color: var(--color-primary);
+}
+
+.dark {
+  color: var(--color-text-dark);
+}
+
+.sm {
+  gap: var(--space-10);
+  font-size: var(--font-size-24);
+}
+
+.sm .icon {
+  width: 17px;
+  height: 22px;
+}
+
+.md {
+  gap: var(--space-6);
+  font-size: var(--font-size-20);
+}
+
+.md .icon {
+  width: 18px;
+  height: 23px;
+}
+
+.lg {
+  gap: var(--space-20);
+  font-size: var(--font-size-72);
+}
+
+.lg .icon {
+  width: 46px;
+  height: 59px;
+}
+
+.xl {
+  gap: var(--space-20);
+  font-size: var(--font-size-72);
+}
+
+.xl .icon {
+  width: 56px;
+  height: 72px;
+}

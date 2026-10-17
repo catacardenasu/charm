@@ -1,0 +1,55 @@
+.row {
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-auto-flow: column;
+  width: 100%;
+}
+
+.tab {
+  composes: pressable hitArea from './shared.module.css';
+  min-width: 0;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-16);
+  background: transparent;
+  color: var(--color-secondary);
+  box-shadow: inset 0 0 0 var(--border-width) var(--color-secondary);
+  font-family: var(--font-body);
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.active {
+  background: var(--color-primary);
+  color: var(--color-text-dark);
+  box-shadow: none;
+}
+
+.sm {
+  gap: var(--space-4);
+}
+
+.sm .tab {
+  height: 39px;
+  font-size: var(--font-size-11);
+}
+
+.md {
+  gap: var(--space-8);
+}
+
+.md .tab {
+  height: var(--control-height);
+  font-size: var(--font-size-18);
+}
+
+.lg {
+  gap: var(--space-8);
+}
+
+.lg .tab {
+  height: 55px;
+  font-size: var(--font-size-22);
+}

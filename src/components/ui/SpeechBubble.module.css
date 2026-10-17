@@ -1,0 +1,27 @@
+/* Figma: 168px-wide body at x=9.5, tail 26x24.5 at the bottom-left, 58px total height */
+.bubble {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  padding: 0 0 18px var(--space-10);
+  color: var(--color-secondary);
+}
+
+.tail {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+.body {
+  position: relative;
+  margin: 0;
+  padding: var(--space-10);
+  border-radius: var(--radius-10);
+  background: var(--color-secondary);
+  color: var(--color-text-dark);
+  font-family: var(--font-display);
+  font-size: var(--font-size-20);
+  line-height: 1;
+  overflow-wrap: anywhere;
+}

@@ -1,0 +1,56 @@
+/* Shared behavior for every tappable UI element. Compose it with `composes: pressable from './shared.module.css'`. */
+
+.pressable {
+  cursor: pointer;
+}
+
+/* The reset has zero specificity so component styles always win, whatever order the CSS loads in */
+:where(.pressable) {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+  transition:
+    transform var(--duration-fast),
+    filter var(--duration-fast);
+}
+
+.pressable:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline-offset: var(--space-2);
+}
+
+/* Pressed: on touch, or forced with data-pressed for the gallery */
+.pressable:active:not(:disabled),
+.pressable[data-pressed]:not(:disabled) {
+  transform: translateY(var(--press-offset));
+  filter: brightness(var(--press-brightness));
+}
+
+.pressable:disabled {
+  opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+}
+
+/* Grows the invisible tap area to at least 44x44 without changing the visual size */
+:where(.hitArea) {
+  position: relative;
+}
+
+.hitArea::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(100%, var(--tap-target));
+  height: max(100%, var(--tap-target));
+  transform: translate(-50%, -50%);
+}

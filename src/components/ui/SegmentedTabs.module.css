@@ -1,0 +1,40 @@
+.track {
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-auto-flow: column;
+  width: 100%;
+}
+
+.tab {
+  composes: pressable hitArea from './shared.module.css';
+  height: var(--control-height-sm);
+  font-family: var(--font-body);
+  font-size: var(--font-size-20);
+  line-height: 1;
+  text-align: center;
+  color: var(--color-secondary);
+}
+
+/* pill */
+.pill {
+  border-radius: var(--radius-8);
+  background: var(--color-bg-light);
+}
+
+.pill .tab {
+  border-radius: var(--radius-8);
+}
+
+.pill .active {
+  background: var(--color-primary);
+  color: var(--color-text-dark);
+}
+
+/* folder */
+.folder .tab {
+  border-radius: var(--radius-4) var(--radius-4) 0 0;
+}
+
+.folder .active {
+  background: var(--color-bg-light);
+}

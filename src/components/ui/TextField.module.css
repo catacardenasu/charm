@@ -1,0 +1,88 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.label {
+  font-family: var(--font-body);
+  font-size: var(--font-size-20);
+  color: var(--color-text);
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  height: var(--control-height);
+  border-radius: var(--radius-8);
+  background: var(--color-secondary);
+}
+
+.field:focus-within {
+  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline-offset: var(--space-2);
+}
+
+.disabled {
+  opacity: var(--opacity-disabled);
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0 var(--space-10);
+  border: 0;
+  background: transparent;
+  color: var(--color-text-dark);
+  font-family: var(--font-display);
+  outline: none;
+}
+
+.input::placeholder {
+  color: var(--color-placeholder);
+  opacity: 1;
+}
+
+.input:disabled {
+  cursor: not-allowed;
+}
+
+.md .input {
+  font-size: var(--font-size-20);
+}
+
+.lg .input {
+  font-size: var(--font-size-24);
+}
+
+.eye {
+  composes: pressable from './shared.module.css';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--tap-target);
+  height: var(--tap-target);
+}
+
+.eye img {
+  width: 27px;
+  height: 27px;
+}
+
+.count {
+  margin: var(--space-6) 0 0;
+  font-family: var(--font-display);
+  font-size: var(--font-size-14);
+  color: var(--color-text);
+}

@@ -1,0 +1,171 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-24);
+  padding: var(--space-24) var(--space-14) var(--space-48);
+}
+
+.title {
+  font-size: var(--font-size-64);
+}
+
+.intro {
+  margin-top: calc(-1 * var(--space-14));
+  font-size: var(--font-size-16);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  padding-top: var(--space-16);
+  border-top: var(--border-width) solid var(--color-bg-light);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-32);
+  color: var(--color-primary);
+}
+
+.variant {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.variantName {
+  font-family: var(--font-display);
+  font-size: var(--font-size-14);
+  color: var(--color-panel);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-10);
+}
+
+.stack > * {
+  align-self: flex-start;
+}
+
+.stack > :is(div, button, nav, section) {
+  align-self: stretch;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-10);
+}
+
+.pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-8);
+}
+
+.center {
+  text-align: center;
+  font-size: var(--font-size-20);
+}
+
+.cardHeading {
+  font-size: var(--font-size-20);
+  color: var(--color-bg-light);
+}
+
+.cardBody {
+  font-size: var(--font-size-20);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-10);
+  width: 101px;
+}
+
+.statValue {
+  font-size: var(--font-size-24);
+  color: var(--color-primary);
+}
+
+.plazaCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-10);
+}
+
+.plazaName {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--font-size-16);
+}
+
+.plazaText {
+  display: block;
+  font-size: var(--font-size-12);
+}
+
+.orangeSwatch,
+.creamSwatch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-14);
+  padding: var(--space-10) var(--space-14);
+  border-radius: var(--radius-8);
+}
+
+.orangeSwatch {
+  background: var(--color-primary);
+}
+
+.creamSwatch {
+  background: var(--color-secondary);
+  color: var(--color-text-dark);
+}
+
+.folderPanel {
+  padding: var(--space-16);
+  background: var(--color-bg-light);
+}
+
+.plainButton {
+  display: block;
+  width: 100%;
+  padding: var(--space-10) 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.swatchGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 90px);
+  justify-content: space-between;
+  row-gap: var(--space-4);
+}
+
+.bubbleScene {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.bubbleAvatar {
+  width: 117px;
+  height: 144px;
+  flex-shrink: 0;
+  image-rendering: pixelated;
+}
+
+.tileGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-12);
+}
