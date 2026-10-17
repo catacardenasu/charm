@@ -1,5 +1,7 @@
 import type { Avatar } from '../../types.ts'
 import { AvatarCreator } from '../AvatarCreator.tsx'
+import { Button } from '../ui/index.ts'
+import { StepFrame } from '../StepFrame.tsx'
 
 interface Props {
   avatar: Avatar
@@ -8,20 +10,25 @@ interface Props {
   onNext: () => void
 }
 
-/** Step 2: avatar. */
+/** Step 3: avatar. */
 export default function AvatarStep({ avatar, onChange, onBack, onNext }: Props) {
   return (
-    <section>
-      <h1>Build your Charmling</h1>
-
+    <StepFrame
+      step={3}
+      title="Build your Charmling"
+      intro="A little character with a lot of charm. This is how you’ll appear to everyone you meet!"
+      footer={
+        <>
+          <Button variant="secondary" fullWidth onClick={onBack}>
+            Back
+          </Button>
+          <Button fullWidth onClick={onNext}>
+            Next
+          </Button>
+        </>
+      }
+    >
       <AvatarCreator value={avatar} onChange={onChange} />
-
-      <button type="button" onClick={onBack}>
-        Back
-      </button>
-      <button type="button" onClick={onNext}>
-        Next
-      </button>
-    </section>
+    </StepFrame>
   )
 }

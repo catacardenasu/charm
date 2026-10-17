@@ -8,4 +8,5 @@ export const SPRITES = {
   lock: '/sprites/ui/lock.png',
   camera: '/sprites/ui/camera.png',
   google: '/sprites/ui/google.png',
+  dice: '/sprites/ui/dice.png',
 } as const

@@ -1,0 +1,31 @@
+.arc {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.letter {
+  position: absolute;
+  line-height: 1;
+  white-space: pre;
+  transform: translate(-50%, -50%) rotate(var(--rotate));
+}
+
+/* The letters land one after another, from a little above their place on the curve. */
+.animate {
+  animation: letter-drop 0.45s cubic-bezier(0.3, 1.5, 0.5, 1) backwards;
+  animation-delay: calc(var(--i) * 45ms + 150ms);
+}
+
+@keyframes letter-drop {
+  from {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% - 0.35em)) rotate(var(--rotate));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate {
+    animation: none;
+  }
+}

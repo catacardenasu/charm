@@ -1,0 +1,68 @@
+/* Figma onboarding frames: 14px side margins, progress bar, 64px title, 20px intro, 53px buttons at the bottom. */
+.frame {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+  padding: var(--space-8) var(--space-14) var(--space-12);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-top: var(--space-10);
+}
+
+.title {
+  font-size: var(--font-size-64);
+  color: var(--color-secondary);
+  overflow-wrap: anywhere;
+}
+
+.intro {
+  font-size: var(--font-size-20);
+  color: var(--color-secondary);
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-14);
+  margin-top: var(--space-16);
+}
+
+.footer {
+  margin-top: var(--space-16);
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-8);
+}
+
+/* A lone Next keeps to the right, where it sits next to Back. */
+.buttons > :only-child {
+  grid-column: 2;
+}
+
+.sticky {
+  position: sticky;
+  bottom: 0;
+  margin: var(--space-16) calc(var(--space-14) * -1) calc(var(--space-12) * -1);
+  padding: var(--space-8) var(--space-14) var(--space-12);
+  background: var(--color-bg-dark);
+}
+
+.note {
+  margin-bottom: var(--space-8);
+  font-size: var(--font-size-20);
+  color: var(--color-secondary);
+  text-align: center;
+}
+
+.wide .buttons > :only-child {
+  grid-column: 1 / -1;
+}

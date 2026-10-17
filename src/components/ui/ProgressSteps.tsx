@@ -2,7 +2,7 @@ import styles from './ProgressSteps.module.css'
 import { cx } from './cx.ts'
 
 export interface ProgressStepsProps {
-  /** Current step, 1-based. Steps up to and including it are filled. */
+  /** Current step, 1-based. Only that step is orange, like the Figma bar. */
   current: number
   total?: number
   className?: string
@@ -21,7 +21,7 @@ export function ProgressSteps({ current, total = 5, className }: ProgressStepsPr
       aria-valuetext={`Step ${current} of ${total}`}
     >
       {Array.from({ length: total }, (_, i) => (
-        <span key={i} className={cx(styles.step, i < current && styles.done)} />
+        <span key={i} className={cx(styles.step, i === current - 1 && styles.done)} />
       ))}
     </div>
   )

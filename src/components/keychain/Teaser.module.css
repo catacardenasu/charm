@@ -1,0 +1,77 @@
+/* Figma "Log In Screen": the Charm wordmark on a curve with its sparkle, then sign in with Google and the terms line. */
+.screen {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: var(--space-8) var(--space-14) var(--space-24);
+  text-align: center;
+}
+
+.logo {
+  position: relative;
+  container-type: inline-size;
+  width: 100%;
+}
+
+.wordmark {
+  position: relative;
+  height: 64px;
+  height: calc(100cqw * 100 / 402);
+  margin: 0;
+  color: var(--color-secondary);
+  font-family: var(--font-display);
+  font-size: 64px;
+  font-size: calc(100cqw * 64 / 402);
+}
+
+.sparkle {
+  position: absolute;
+  top: calc(100cqw * 38 / 402);
+  left: calc(100cqw * 291 / 402);
+  width: calc(100cqw * 34 / 402);
+  height: auto;
+  transform: rotate(15deg);
+  image-rendering: pixelated;
+}
+
+.owner {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-16);
+}
+
+.title {
+  font-size: var(--font-size-48);
+  color: var(--color-secondary);
+  overflow-wrap: anywhere;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-24);
+  width: 100%;
+  max-width: 334px;
+}
+
+.signIn {
+  width: 263px;
+  max-width: 100%;
+}
+
+.terms {
+  max-width: 334px;
+  font-family: var(--font-ui);
+  font-size: var(--font-size-14);
+  color: var(--color-secondary);
+}
+
+.underline {
+  text-decoration: underline;
+}
