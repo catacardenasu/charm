@@ -110,6 +110,16 @@
   --focus-ring-width: 2px;
   --duration-fast: 120ms;
 
+  /* Avatar sprites: every layer is drawn on a 21x31 canvas and scaled by whole numbers only */
+  --avatar-cell-width: 21px;
+  --avatar-cell-height: 31px;
+  --avatar-sheet-columns: 12;         /* hairstyles across each hair sheet */
+  --avatar-sheet-rows: 2;             /* full body, head only */
+  --avatar-scale-plaza: 2;            /* 42x62 */
+  --avatar-scale-profile: 5;          /* 105x155 */
+  --avatar-idle-duration: 1s;         /* one up + one down frame */
+  --avatar-idle-bob: 1;               /* art pixels the idle bob moves */
+
   /* Layout */
   --app-max-width: 402px;             /* Figma frame width (iPhone 16 Pro) */
   --safe-top: env(safe-area-inset-top, 0px);

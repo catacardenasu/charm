@@ -1,5 +1,8 @@
 // Component gallery at /dev: every UI component with every variant and state, for checking against Figma on a phone.
 import { useState, type ReactNode } from 'react'
+import { Avatar } from '../components/Avatar.tsx'
+import { mockProfiles } from '../data/mock.ts'
+import type { Avatar as AvatarData, HairColor, SkinTone } from '../types.ts'
 import {
   Badge,
   BottomNav,
@@ -43,6 +46,35 @@ const SKIN_COLORS = [
   { id: 'dark', label: 'Dark' },
 ]
 
+const AVATAR_SKINS: SkinTone[] = ['pale', 'tan', 'dark']
+const AVATAR_HAIR: HairColor[] = ['brown', 'black', 'blonde', 'red', 'blue', 'purple', 'pink', 'green']
+
+const avatar = (overrides: Partial<AvatarData>): AvatarData => ({
+  skin: 'pale',
+  hairStyle: 1,
+  hairColor: 'brown',
+  outfit: 'basic-01',
+  hat: null,
+  accessory: null,
+  ...overrides,
+})
+
+const AVATAR_COMBOS: Array<{ name: string; avatar: AvatarData }> = [
+  { name: 'pale · style 1 · brown · basic-01', avatar: avatar({}) },
+  { name: 'dark · style 8 · black · basic-07', avatar: avatar({ skin: 'dark', hairStyle: 8, hairColor: 'black', outfit: 'basic-07' }) },
+  { name: 'tan · style 6 · pink · basic-13', avatar: avatar({ skin: 'tan', hairStyle: 6, hairColor: 'pink', outfit: 'basic-13' }) },
+  { name: 'pale · style 10 · green · basic-20', avatar: avatar({ hairStyle: 10, hairColor: 'green', outfit: 'basic-20' }) },
+  { name: 'dark · style 12 · purple · basic-24', avatar: avatar({ skin: 'dark', hairStyle: 12, hairColor: 'purple', outfit: 'basic-24' }) },
+  { name: 'tan · style 4 · blue · basic-16', avatar: avatar({ skin: 'tan', hairStyle: 4, hairColor: 'blue', outfit: 'basic-16' }) },
+]
+
+const AVATAR_EDGE_CASES: Array<{ name: string; avatar: AvatarData }> = [
+  { name: 'outfit: null', avatar: avatar({ hairStyle: 7, hairColor: 'red', outfit: null }) },
+  { name: 'special fit (skipped)', avatar: avatar({ skin: 'tan', outfit: 'special-flannel' }) },
+  { name: 'hat + accessory (skipped)', avatar: avatar({ skin: 'dark', hat: 'gator', accessory: 'heart-glasses' }) },
+  { name: 'bad hairStyle (no base)', avatar: avatar({ hairStyle: 99, outfit: 'basic-09' }) },
+]
+
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className={styles.section}>
@@ -76,6 +108,9 @@ export default function ComponentGallery() {
   const [modalOpen, setModalOpen] = useState(false)
   const [nav, setNav] = useState<NavKey>('home')
   const [tile, setTile] = useState('gator')
+  const [avatarSkin, setAvatarSkin] = useState<SkinTone>('pale')
+  const [avatarHair, setAvatarHair] = useState<HairColor>('brown')
+  const [avatarIdle, setAvatarIdle] = useState(true)
 
   const toggleInterest = (name: string) =>
     setInterests((list) => (list.includes(name) ? list.filter((i) => i !== name) : [...list, name]))
@@ -84,6 +119,76 @@ export default function ComponentGallery() {
     <main className={styles.page}>
       <h1 className={styles.title}>Components</h1>
       <p className={styles.intro}>Every UI component and state. Pressed states also show while you hold a tap.</p>
+
+      <Section title="Avatar">
+        <Variant name="profile size (5x) · idle bob" row>
+          <Avatar avatar={AVATAR_COMBOS[0].avatar} idle={avatarIdle} label="Pale, brown hair" />
+          <Avatar avatar={AVATAR_COMBOS[1].avatar} idle={avatarIdle} idleOffset={0.5} label="Dark, black hair" />
+          <Avatar avatar={AVATAR_COMBOS[2].avatar} idle={avatarIdle} idleOffset={0.25} label="Tan, pink hair" />
+        </Variant>
+        <Variant name="idle" row>
+          <Button size="md" variant="secondary" onClick={() => setAvatarIdle((on) => !on)}>
+            {avatarIdle ? 'Stop idle' : 'Start idle'}
+          </Button>
+        </Variant>
+        <Variant name="plaza size (2x) · combinations">
+          <div className={styles.avatarGrid}>
+            {AVATAR_COMBOS.map(({ name, avatar: a }, i) => (
+              <figure key={name} className={styles.avatarCell}>
+                <Avatar avatar={a} size="plaza" idle={avatarIdle} idleOffset={i * 0.17} />
+                <figcaption>{name}</figcaption>
+              </figure>
+            ))}
+          </div>
+        </Variant>
+        <Variant name="all 12 hairstyles (pick skin and hair color)">
+          <CategoryTabs
+            ariaLabel="Skin tone"
+            size="sm"
+            value={avatarSkin}
+            onChange={setAvatarSkin}
+            options={AVATAR_SKINS.map((s) => ({ value: s, label: s[0].toUpperCase() + s.slice(1) }))}
+          />
+          <CategoryTabs
+            ariaLabel="Hair color"
+            size="sm"
+            value={avatarHair}
+            onChange={setAvatarHair}
+            options={AVATAR_HAIR.map((c) => ({ value: c, label: c[0].toUpperCase() + c.slice(1) }))}
+          />
+          <div className={styles.avatarRow}>
+            {Array.from({ length: 12 }, (_, i) => (
+              <Avatar
+                key={i}
+                size="plaza"
+                idle={avatarIdle}
+                idleOffset={i * 0.11}
+                avatar={avatar({ skin: avatarSkin, hairColor: avatarHair, hairStyle: i + 1, outfit: `basic-${String((i * 2) % 24 + 1).padStart(2, '0')}` })}
+              />
+            ))}
+          </div>
+        </Variant>
+        <Variant name="missing layers are skipped">
+          <div className={styles.avatarGrid}>
+            {AVATAR_EDGE_CASES.map(({ name, avatar: a }) => (
+              <figure key={name} className={styles.avatarCell}>
+                <Avatar avatar={a} size="plaza" idle={false} />
+                <figcaption>{name}</figcaption>
+              </figure>
+            ))}
+          </div>
+        </Variant>
+        <Variant name="mock profiles">
+          <div className={styles.avatarGrid}>
+            {mockProfiles.map((p) => (
+              <figure key={p.id} className={styles.avatarCell}>
+                <Avatar avatar={p.avatar} size="plaza" idle={avatarIdle} label={p.nickname} />
+                <figcaption>{p.nickname}</figcaption>
+              </figure>
+            ))}
+          </div>
+        </Variant>
+      </Section>
 
       <Section title="Button">
         <Variant name="primary · lg (Next, Done)" row>
