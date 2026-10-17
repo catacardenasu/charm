@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import type { PromptStatus } from '../../hooks/useTapIn.ts'
 import type { Profile, TapInResult } from '../../types.ts'
-import AvatarView from '../AvatarView.tsx'
+import { Avatar } from '../Avatar.tsx'
 
 interface Props {
   me: Profile | null
@@ -23,8 +23,8 @@ export default function TapInScreen({ me, result, prompt, promptStatus }: Props)
       </h1>
 
       <div>
-        {me && <AvatarView avatar={me.avatar} name={me.nickname} />}
-        <AvatarView avatar={other.avatar} name={other.nickname} />
+        {me && <Avatar avatar={me.avatar} label={me.nickname} />}
+        <Avatar avatar={other.avatar} label={other.nickname} />
       </div>
 
       <h2>Shared interests</h2>

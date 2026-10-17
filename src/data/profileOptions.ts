@@ -28,11 +28,12 @@ export const INTERESTS = [
 
 export const YEARS = ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Grad'] as const
 
-// Every new user starts with this until Naty's AvatarCreator is in.
+// Where the AvatarCreator starts in onboarding.
 export const DEFAULT_AVATAR: Avatar = {
-  skin: 'skin-1',
-  hair: 'hair-1',
-  outfit: 'outfit-1',
+  skin: 'pale',
+  hairStyle: 1,
+  hairColor: 'brown',
+  outfit: 'basic-01',
+  hat: null,
   accessory: null,
-  item: null,
 }

@@ -1,5 +1,5 @@
 import type { Avatar } from '../../types.ts'
-import AvatarView from '../AvatarView.tsx'
+import { AvatarCreator } from '../AvatarCreator.tsx'
 
 interface Props {
   avatar: Avatar
@@ -10,19 +10,11 @@ interface Props {
 
 /** Step 2: avatar. */
 export default function AvatarStep({ avatar, onChange, onBack, onNext }: Props) {
-  void onChange // used once AvatarCreator is in
-
   return (
     <section>
-      <h1>Make your avatar</h1>
+      <h1>Build your Charmling</h1>
 
-      {/* ┌──────────────────────────────────────────────────────────────────────┐
-          │ SLOT: Naty's AvatarCreator goes here. Replace the default preview with │
-          │   <AvatarCreator value={avatar} onChange={onChange} />                 │
-          │ `avatar` starts as DEFAULT_AVATAR (src/data/profileOptions.ts).        │
-          └──────────────────────────────────────────────────────────────────────┘ */}
-      <AvatarView avatar={avatar} />
-      <p>You'll get the default avatar for now.</p>
+      <AvatarCreator value={avatar} onChange={onChange} />
 
       <button type="button" onClick={onBack}>
         Back
