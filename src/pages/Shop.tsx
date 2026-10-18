@@ -24,7 +24,7 @@ function wearing(avatar: AvatarData, item: ShopItem | undefined): AvatarData {
 /** /shop, Figma "Shop" (34:955) with the grids Hats (95:541), Accessories (95:542) and Clothing (95:543). */
 export default function Shop() {
   // MOCK: swap this one line for Katie's useShop() when it exists. It needs the same shape as useMockShop's result.
-  const { items, points, ownedIds, buy } = useShopState()
+  const { items, points: coins, ownedIds, buy } = useShopState()
 
   const navigate = useNavigate()
   const { profile } = useMyProfile()
@@ -37,7 +37,7 @@ export default function Shop() {
   const visible = items.filter((item) => item.category === category)
   const trying = items.find((item) => item.id === tryingId)
   const owned = trying ? ownedIds.has(trying.id) : false
-  const shortBy = trying ? trying.price - points : 0
+  const shortBy = trying ? trying.price - coins : 0
 
   const changeCategory = (next: ShopCategory) => {
     setCategory(next)
@@ -51,13 +51,13 @@ export default function Shop() {
 
   let buyLabel = 'Buy'
   if (owned) buyLabel = 'Owned'
-  else if (shortBy > 0) buyLabel = 'Not enough points'
+  else if (shortBy > 0) buyLabel = 'Not enough coins'
 
   return (
     <main className={styles.screen}>
       <header className={styles.header}>
         <h1 className={styles.title}>Shop</h1>
-        <CoinBalance amount={points} className={styles.balance} />
+        <CoinBalance amount={coins} className={styles.balance} />
       </header>
 
       <SegmentedTabs
@@ -103,7 +103,7 @@ export default function Shop() {
             <ShopItemTile
               item={item}
               owned={ownedIds.has(item.id)}
-              tooExpensive={item.price > points}
+              tooExpensive={item.price > coins}
               trying={item.id === tryingId}
               onSelect={() => setTryingId(item.id)}
             />
@@ -142,7 +142,7 @@ export default function Shop() {
             <Avatar avatar={wearing(myAvatar, trying)} label={`Your Charmling wearing ${trying.name}`} idle={false} />
             <CoinBalance amount={trying.price} variant="inline" size="lg" />
             <p className={styles.afterBuy}>
-              {points - trying.price} {points - trying.price === 1 ? 'point' : 'points'} left after this
+              {coins - trying.price} {coins - trying.price === 1 ? 'coin' : 'coins'} left after this
             </p>
           </div>
         )}
