@@ -1,0 +1,105 @@
+/* Figma "Charmling Profile" (40:904), 402 wide, 41px content gutters. No bottom nav. */
+.screen {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 3px 41px var(--space-24);
+  color: var(--color-secondary);
+  font-family: var(--font-body);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: -27px;
+}
+
+.back {
+  composes: pressable from '../components/ui/shared.module.css';
+  width: var(--tap-target);
+  height: var(--tap-target);
+  font-family: var(--font-body);
+  font-size: var(--font-size-32);
+  text-align: center;
+}
+
+.nickname {
+  min-width: 0;
+  font-size: var(--font-size-48);
+  line-height: 1;
+  overflow-wrap: anywhere;
+}
+
+.message {
+  margin-top: var(--space-24);
+  font-size: var(--font-size-16);
+}
+
+/* Charmling on the left; saying bubble and streak on the right. */
+.hero {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 26px;
+}
+
+.heroSide {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  padding-top: 14px;
+}
+
+.bubble {
+  margin-left: -4px;
+}
+
+.streak {
+  display: flex;
+  align-items: center;
+  gap: var(--space-20);
+  margin: var(--space-4) 0 0 var(--space-14);
+  color: var(--color-primary);
+  font-family: var(--font-display);
+  font-size: var(--font-size-72);
+  line-height: 1;
+}
+
+.since {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  margin-top: var(--space-8);
+  padding: var(--space-8) var(--space-14);
+  font-size: var(--font-size-20);
+  text-align: center;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  margin-top: var(--space-16);
+}
+
+.label {
+  font-size: var(--font-size-24);
+}
+
+.interests {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-12) 9px;
+  margin: 0 0 0 -4px;
+  padding: 0;
+  list-style: none;
+}
+
+.empty {
+  font-size: var(--font-size-16);
+}
