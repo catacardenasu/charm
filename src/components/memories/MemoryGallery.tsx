@@ -12,6 +12,8 @@ interface Props {
   onRetry: () => void
   /** Deletes my photo for a tap in. Only offered on photos I took. */
   onDelete: (tapInId: string) => Promise<void>
+  /** Empty-state line under "No memories yet." */
+  emptyHint?: string
 }
 
 // Signed URLs only last a few minutes. A photo that fails to load (or a tab that was asleep) asks for fresh ones,
@@ -25,7 +27,14 @@ const formatDay = (day: string) =>
 const describe = (memory: Memory) => `Memory with ${memory.other_nickname}, ${formatDay(memory.day)}`
 
 /** Square memory thumbnails, newest first (the list arrives sorted). Tap one to see it full size. */
-export function MemoryGallery({ memories, loading, error, onRetry, onDelete }: Props) {
+export function MemoryGallery({
+  memories,
+  loading,
+  error,
+  onRetry,
+  onDelete,
+  emptyHint = 'Snap a photo after you Charm someone and it will live here!',
+}: Props) {
   const [openId, setOpenId] = useState<string | null>(null)
   const [confirming, setConfirming] = useState(false)
   const [deleting, setDeleting] = useState(false)
@@ -95,7 +104,7 @@ export function MemoryGallery({ memories, loading, error, onRetry, onDelete }: P
       <div className={styles.message}>
         <img src={SPRITES.camera} alt="" width={60} height={48} className={styles.cameraArt} />
         <p>No memories yet.</p>
-        <p className={styles.hint}>Snap a photo after your next tap in and it will live here!</p>
+        <p className={styles.hint}>{emptyHint}</p>
       </div>
     )
   }

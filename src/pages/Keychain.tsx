@@ -128,7 +128,7 @@ function TapInFlow({ code }: { code: string }) {
     tapIn(code).catch(() => {}) // shown through `error`
   }, [tapIn, code])
 
-  if (error) return <p role="alert">Couldn't tap in. Try tapping again.</p>
-  if (!result) return <p>Tapping in…</p>
+  if (error) return <p role="alert">Couldn't Charm them. Tap the charm again.</p>
+  if (!result) return <p>Charming…</p>
   return <TapInScreen me={me} result={result} prompt={prompt} promptStatus={promptStatus} />
 }

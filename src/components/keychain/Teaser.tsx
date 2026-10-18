@@ -23,7 +23,7 @@ export default function Teaser({ owner, onLogIn }: Props) {
 
       <div className={styles.owner}>
         <Avatar avatar={owner.avatar} label={owner.nickname} />
-        <h1 className={styles.title}>{owner.nickname} wants to tap in with you!</h1>
+        <h1 className={styles.title}>{owner.nickname} wants to Charm you!</h1>
       </div>
 
       <div className={styles.actions}>

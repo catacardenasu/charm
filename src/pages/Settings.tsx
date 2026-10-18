@@ -165,7 +165,7 @@ function MyCharm() {
           </>
         }
       >
-        <p>We’ll turn it off so nobody can tap in with it. You can link a new charm after.</p>
+        <p>We’ll turn it off so nobody can Charm you with it. You can link a new charm after.</p>
         {error && <p role="alert">{error}</p>}
       </Modal>
     </>
