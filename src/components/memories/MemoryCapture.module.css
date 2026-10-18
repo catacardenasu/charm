@@ -1,0 +1,51 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+/* Off-screen rather than display: none, so iOS Safari still opens the picker from .click(). */
+.input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.library {
+  composes: pressable hitArea from '../ui/shared.module.css';
+  color: var(--color-primary);
+  font-family: var(--font-body);
+  font-size: var(--font-size-16);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.library:disabled {
+  opacity: 0.5;
+}
+
+.saved {
+  margin: 0;
+  color: var(--color-primary);
+  font-family: var(--font-body);
+  font-size: var(--font-size-20);
+}
+
+.preview {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--radius-8);
+  object-fit: cover;
+}
+
+.error {
+  margin: var(--space-8) 0 0;
+  color: var(--color-primary);
+  font-family: var(--font-body);
+  font-size: var(--font-size-16);
+}
