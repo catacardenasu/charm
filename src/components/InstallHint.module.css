@@ -1,0 +1,38 @@
+/* A cream card over the bottom of the plaza, above the page dots. */
+.hint {
+  position: absolute;
+  right: calc(var(--safe-right) + 13px);
+  bottom: calc(var(--space-24) + var(--space-48));
+  left: calc(var(--safe-left) + 13px);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  padding: var(--space-10) var(--space-8) var(--space-10) var(--space-14);
+  font-size: var(--font-size-15);
+}
+
+.text {
+  flex: 1;
+  margin: 0;
+}
+
+.close {
+  composes: pressable from './ui/shared.module.css';
+  flex-shrink: 0;
+  width: var(--tap-target);
+  height: var(--tap-target);
+  margin: calc(-1 * var(--space-8)) 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-text-dark);
+  font-family: var(--font-display);
+  font-size: var(--font-size-32);
+  line-height: 1;
+}
+
+.close:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-focus);
+  border-radius: var(--radius-8);
+}
