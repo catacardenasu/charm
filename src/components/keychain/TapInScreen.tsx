@@ -114,7 +114,7 @@ export default function TapInScreen({ me, result, prompt, promptStatus }: Props)
           </span>
         </Card>
 
-        {!alreadyToday && !firstMeeting && (
+        {!firstMeeting && (
           <MemoryCapture tapInId={result.tap_in_id} />
         )}
       </div>
