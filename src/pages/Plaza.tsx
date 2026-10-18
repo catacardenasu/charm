@@ -3,9 +3,12 @@ import { PlazaScene } from '../components/PlazaScene.tsx'
 import { PlazaSwitcher } from '../components/PlazaSwitcher.tsx'
 import { AppNav } from '../components/AppNav.tsx'
 import { PointsBalance } from '../components/PointsBalance.tsx'
+import { Card } from '../components/ui/index.ts'
 import { cx } from '../components/ui/cx.ts'
 import { DEFAULT_LOCATION_ID, PLAZA_SCENES } from '../data/plazas.ts'
-import { mockLocations, mockPlaza, mockUniquePeopleMet } from '../data/mock.ts'
+import { useLocations } from '../hooks/useLocations.ts'
+import { usePlaza } from '../hooks/usePlaza.ts'
+import { usePlazaVersion } from '../lib/plazaRefresh.ts'
 import styles from './Plaza.module.css'
 
 // Dev only: ?met=50 unlocks everything, ?walk outlines the walkable ground.
@@ -16,18 +19,22 @@ export default function Plaza() {
   const [search] = useSearchParams()
   const navigate = useNavigate()
 
-  // Mock data. Swap these three lines for usePlaza(locationId) and the real locations / people met later.
-  const people = mockPlaza(locationId)
-  const locations = mockLocations
-  const uniquePeopleMet = Number(devParams?.get('met') ?? mockUniquePeopleMet)
+  // Bumped by NotificationsProvider when a tap in arrives over Realtime, so both reload.
+  const plazaVersion = usePlazaVersion()
+  const { people, loading: peopleLoading } = usePlaza(locationId, plazaVersion)
+  const { locations, uniquePeopleMet: realPeopleMet, loading: locationsLoading } = useLocations(plazaVersion)
+  const devMet = devParams?.get('met')
+  const uniquePeopleMet = devMet != null ? Number(devMet) : realPeopleMet
 
   const location = locations.find((l) => l.id === locationId)
   const scene = PLAZA_SCENES[locationId]
-  if (!location || !scene || uniquePeopleMet < location.unlock_at) return <Navigate to="/plaza" replace />
+  // Wait for locations before bouncing a locked plaza. The default plaza is always open (unlock_at 0).
+  const locked = !locationsLoading && (!location || uniquePeopleMet < location.unlock_at)
+  if (!scene || (locked && locationId !== DEFAULT_LOCATION_ID)) return <Navigate to="/plaza" replace />
 
   const switching = search.has('plazas')
   const unlocked = locations.filter((l) => uniquePeopleMet >= l.unlock_at)
-
+  const empty = !peopleLoading && people.length === 0
 
   return (
     <div className={styles.screen}>
@@ -47,6 +54,11 @@ export default function Plaza() {
               onSelectPerson={(userId) => navigate(`/u/${encodeURIComponent(userId)}`)}
               debug={devParams?.has('walk')}
             />
+            {empty && (
+              <Card className={styles.empty}>
+                <p>Tap someone’s charm to fill your plaza!</p>
+              </Card>
+            )}
             <PointsBalance className={styles.points} />
             {unlocked.length > 1 && (
               <nav className={styles.dots} aria-label="Plazas">

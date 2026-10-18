@@ -3,14 +3,14 @@ import { BottomNav, type NavKey } from './ui/index.ts'
 
 const ROUTES: Record<NavKey, string> = {
   home: '/plaza',
-  activity: '/streaks',
+  activity: '/activity',
   shop: '/shop',
   plazas: '/plaza?plazas',
   profile: '/me',
 }
 
 function activeFor(pathname: string): NavKey {
-  if (pathname.startsWith('/streaks')) return 'activity'
+  if (pathname.startsWith('/activity') || pathname.startsWith('/streaks')) return 'activity'
   if (pathname.startsWith('/shop') || pathname.startsWith('/closet')) return 'shop'
   if (pathname.startsWith('/me') || pathname.startsWith('/settings')) return 'profile'
   return 'home'

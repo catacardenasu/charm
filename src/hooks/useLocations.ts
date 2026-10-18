@@ -19,7 +19,7 @@ interface LocationsResult {
 
 const NO_LOCATIONS: UnlockedLocation[] = []
 
-export function useLocations() {
+export function useLocations(refreshKey = 0) {
   const supabase = useSupabase()
   const { isLoading: authLoading, isAuthenticated } = useAuth0()
   const [result, setResult] = useState<LocationsResult | null>(null)
@@ -44,7 +44,7 @@ export function useLocations() {
     return () => {
       cancelled = true
     }
-  }, [authLoading, isAuthenticated, supabase, reloads])
+  }, [authLoading, isAuthenticated, supabase, reloads, refreshKey])
 
   return {
     locations: result?.locations ?? NO_LOCATIONS,
