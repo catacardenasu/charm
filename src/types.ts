@@ -161,3 +161,35 @@ export type ClaimKeychainStatus =
   | 'mine'
   | 'owned'
   | 'already_have_one'
+
+/** One row of rpc('my_streaks') (supabase/sql/006_helpers.sql), for /streaks. */
+export interface StreakEntry {
+  id: UserId
+  nickname: string
+  avatar: Avatar
+  /** Current streak in weeks. 0 once a whole week was missed. */
+  weeks: number
+  last_week: string
+  last_day: string
+  first_met: string
+  /** Tapped in last week but not yet this week ("tap in by Sunday"). */
+  at_risk: boolean
+}
+
+/** The public profile fields person_detail() shares with people you've met. */
+export type PublicProfile = Pick<Profile, 'id' | 'nickname' | 'avatar' | 'greeting' | 'interests' | 'major' | 'year'>
+
+/** What rpc('person_detail', { p_user_id }) returns, for /u/:userId. Null if you've never met. */
+export interface PersonDetail {
+  profile: PublicProfile
+  shared_interests: string[]
+  /** Current streak in weeks. 0 once a whole week was missed. */
+  weeks: number
+  first_met: string | null
+  last_day: string | null
+  /** Most recent conversation prompt this pair got. */
+  last_prompt: string | null
+}
+
+/** What rpc('deactivate_my_keychain', { p_code }) returns in `status`. 'not_yours' also covers unknown codes. */
+export type DeactivateKeychainStatus = 'deactivated' | 'already_inactive' | 'not_yours'
