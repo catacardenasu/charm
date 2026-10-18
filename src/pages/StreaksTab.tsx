@@ -7,7 +7,7 @@ import { useStreaks } from '../hooks/useStreaks.ts'
 import type { StreakEntry } from '../types.ts'
 import styles from './StreaksTab.module.css'
 
-/** At-risk first ("tap in by Sunday"), then longest streak, then name. */
+/** At-risk first ("Charm by Sunday"), then longest streak, then name. */
 function byUrgency(a: StreakEntry, b: StreakEntry) {
   return Number(b.at_risk) - Number(a.at_risk) || b.weeks - a.weeks || a.nickname.localeCompare(b.nickname)
 }
@@ -30,7 +30,7 @@ export function StreaksTab() {
           Couldn’t load your streaks. {error}
         </p>
       ) : sorted.length === 0 ? (
-        <p className={styles.message}>No streaks yet. Tap in with someone to start one!</p>
+        <p className={styles.message}>No streaks yet. Charm someone to start one!</p>
       ) : (
         <ul className={styles.list}>
           {sorted.map((streak) => (
@@ -57,7 +57,7 @@ function StreakRow({ streak, onOpen }: { streak: StreakEntry; onOpen: () => void
       </span>
       <span className={styles.name}>
         <span className={rowStyles.name}>{streak.nickname}</span>
-        {streak.at_risk && <span className={styles.warning}>Tap in by Sunday</span>}
+        {streak.at_risk && <span className={styles.warning}>Charm by Sunday</span>}
       </span>
       <StreakFlame count={streak.weeks} size="sm" tone={streak.at_risk ? 'dark' : 'orange'} />
     </button>

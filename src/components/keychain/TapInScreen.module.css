@@ -27,7 +27,7 @@
 
 /* "Charm'd to meet/see you!" sit too far left; nudge them right. A margin, not a transform,
    so the box shrinks instead of hanging past the screen (no sideways scroll). Not on
-   "Already charm'd today!": that arc is wider than a 390px screen and would spill off the right. */
+   "Already charm'd": it is already centered on the screen. */
 .shifted {
   margin-left: 20px;
 }

@@ -117,7 +117,7 @@ function place(el: HTMLElement | undefined, layout: Layout, x: number, y: number
 function describe(person: PlazaPerson) {
   if (person.streak_weeks <= 0) return person.nickname
   const weeks = `${person.streak_weeks} week streak`
-  return `${person.nickname}, ${weeks}${person.at_risk ? ', tap in this week to keep it going' : ''}`
+  return `${person.nickname}, ${weeks}${person.at_risk ? ', Charm them this week to keep it going' : ''}`
 }
 
 /**
