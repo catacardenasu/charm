@@ -193,3 +193,30 @@ export interface PersonDetail {
 
 /** What rpc('deactivate_my_keychain', { p_code }) returns in `status`. 'not_yours' also covers unknown codes. */
 export type DeactivateKeychainStatus = 'deactivated' | 'already_inactive' | 'not_yours'
+
+/** One row of rpc('my_cosmetics') (supabase/sql/007_shop.sql). `id` is the sprite name stored in Avatar. */
+export interface ShopCosmetic extends Cosmetic {
+  /** Bought, or free (price 0). */
+  owned: boolean
+  /** On my avatar right now. */
+  equipped: boolean
+}
+
+/** 'already_owned' also covers free items. */
+export type BuyCosmeticStatus = 'bought' | 'already_owned' | 'not_enough_points' | 'not_found'
+
+/** What rpc('buy_cosmetic', { p_cosmetic_id }) returns. */
+export interface BuyCosmeticResult {
+  status: BuyCosmeticStatus
+  /** My points after the purchase (unchanged unless bought). */
+  points: number
+}
+
+export type EquipCosmeticStatus = 'equipped' | 'not_owned' | 'not_found'
+
+/** What rpc('equip_cosmetic', { p_cosmetic_id }) returns. */
+export interface EquipCosmeticResult {
+  status: EquipCosmeticStatus
+  /** My avatar after equipping. Only when status is 'equipped'. */
+  avatar?: Avatar
+}
