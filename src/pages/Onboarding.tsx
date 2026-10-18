@@ -59,8 +59,11 @@ export default function Onboarding() {
         greeting: draft.greeting?.trim() || null,
       })
       navigate(returnTo, { replace: true })
-    } catch {
-      setError("Couldn't save your profile. Try again.")
+    } catch (e) {
+      // PostgrestError has message + code; a plain Error only has message.
+      const { message, code } = e as { message?: string; code?: string }
+      const detail = [message || 'Unknown error', code && `(code ${code})`].filter(Boolean).join(' ')
+      setError(`Couldn't save your profile. Try again.\n${detail}`)
     }
   }
 

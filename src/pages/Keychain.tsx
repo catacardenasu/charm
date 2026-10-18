@@ -7,6 +7,7 @@ import KeychainNotFoundScreen from '../components/keychain/KeychainNotFoundScree
 import OwnKeychainScreen from '../components/keychain/OwnKeychainScreen.tsx'
 import TapInScreen from '../components/keychain/TapInScreen.tsx'
 import Teaser from '../components/keychain/Teaser.tsx'
+import { Button } from '../components/ui/index.ts'
 import { useClaimKeychain } from '../hooks/useClaimKeychain.ts'
 import { useKeychain } from '../hooks/useKeychain.ts'
 import { useMyProfile } from '../hooks/useMyProfile.ts'
@@ -33,7 +34,17 @@ export default function Keychain() {
   }, [redirectToLogin, loginWithRedirect, returnTo])
 
   if (authLoading || keychain.loading) return <p>Loading…</p>
-  if (keychain.error) return <p role="alert">Something went wrong loading this keychain.</p>
+  if (keychain.error) {
+    return (
+      <div role="alert">
+        <p>Something went wrong loading this keychain.</p>
+        <p>{keychain.error.message}</p>
+        <Button variant="secondary" onClick={keychain.refresh}>
+          Try again
+        </Button>
+      </div>
+    )
+  }
 
   if (!isAuthenticated) {
     return keychain.owner ? <Teaser owner={keychain.owner} onLogIn={logIn} /> : <p>Taking you to log in…</p>

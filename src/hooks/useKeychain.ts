@@ -1,7 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-react'
 import type { PostgrestError } from '@supabase/supabase-js'
 import { useCallback, useEffect, useState } from 'react'
-import { useSupabase } from '../lib/supabase.ts'
+import { retryOnAuthError, useSupabase } from '../lib/supabase.ts'
 import type { KeychainLookup } from '../types.ts'
 
 interface Loaded {
@@ -26,13 +26,15 @@ export function useKeychain(code: string | undefined) {
   useEffect(() => {
     if (!code || !key) return
     let cancelled = false
-    supabase.rpc('keychain_lookup', { p_code: code }).then(({ data, error }) => {
-      if (!cancelled) setLoaded({ key, lookup: data as KeychainLookup | null, error })
-    })
+    retryOnAuthError(() => supabase.rpc('keychain_lookup', { p_code: code }), isAuthenticated).then(
+      ({ data, error }) => {
+        if (!cancelled) setLoaded({ key, lookup: data as KeychainLookup | null, error })
+      },
+    )
     return () => {
       cancelled = true
     }
-  }, [supabase, code, key])
+  }, [supabase, code, key, isAuthenticated])
 
   const refresh = useCallback(() => setVersion((v) => v + 1), [])
   const current = loaded?.key === key ? loaded : null
