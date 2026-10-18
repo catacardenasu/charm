@@ -9,17 +9,38 @@ interface Props {
   draft: ProfileFields
   onChange: (changes: Partial<ProfileFields>) => void
   onNext: () => void
+  /** Onboarding's first step has no Back. */
+  onBack?: () => void
+  /** Settings edit screens: their own title, no progress bar, "Done". */
+  title?: string
+  progress?: boolean
+  nextLabel?: string
+  nextDisabled?: boolean
+  error?: string | null
 }
 
 /** Step 1, Figma "About You" (10:104): nickname, major, year. */
-export default function AboutStep({ draft, onChange, onNext }: Props) {
+export default function AboutStep({
+  draft,
+  onChange,
+  onNext,
+  onBack,
+  title = 'About you',
+  progress = true,
+  nextLabel,
+  nextDisabled = false,
+  error,
+}: Props) {
   return (
     <OnboardingLayout
-      step={1}
-      title="About you"
+      step={progress ? 1 : undefined}
+      title={title}
       subtitle="Just the basics. Only your nickname shows to people you meet."
+      onBack={onBack}
       onNext={onNext}
-      nextDisabled={!draft.nickname.trim()}
+      nextLabel={nextLabel}
+      nextDisabled={nextDisabled || !draft.nickname.trim()}
+      error={error}
     >
       <div className={styles.fields}>
         <TextField

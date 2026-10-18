@@ -8,22 +8,40 @@ interface Props {
   onChange: (interests: string[]) => void
   onBack: () => void
   onNext: () => void
+  /** Settings edit screens: their own title, no progress bar, "Done". */
+  title?: string
+  progress?: boolean
+  nextLabel?: string
+  nextDisabled?: boolean
+  error?: string | null
 }
 
 /** Step 2, Figma "Interests" (18:201): picked tags strip, tags by category, pinned counter footer. */
-export default function InterestsStep({ interests, onChange, onBack, onNext }: Props) {
+export default function InterestsStep({
+  interests,
+  onChange,
+  onBack,
+  onNext,
+  title = 'Interests',
+  progress = true,
+  nextLabel,
+  nextDisabled = false,
+  error,
+}: Props) {
   const full = interests.length >= MAX_INTERESTS
   const toggle = (interest: string, selected: boolean) =>
     onChange(selected ? [...interests, interest] : interests.filter((i) => i !== interest))
 
   return (
     <OnboardingLayout
-      step={2}
-      title="Interests"
+      step={progress ? 2 : undefined}
+      title={title}
       subtitle={`Pick ${MIN_INTERESTS} or more, this helps us find what you have in common`}
       onBack={onBack}
       onNext={onNext}
-      nextDisabled={interests.length < MIN_INTERESTS}
+      nextLabel={nextLabel}
+      nextDisabled={nextDisabled || interests.length < MIN_INTERESTS}
+      error={error}
       footerNote={`${interests.length}/${MAX_INTERESTS} Interests Picked`}
       pinnedFooter
     >

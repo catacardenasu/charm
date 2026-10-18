@@ -46,7 +46,7 @@ export default function Me() {
 
         <Card variant="dark" padding="none" className={styles.saying}>
           <p>{profile.greeting ? `“${profile.greeting}”` : 'No saying yet.'}</p>
-          <Link to="/settings/saying" className={styles.edit} aria-label="Edit saying">
+          <Link to="/settings/line" className={styles.edit} aria-label="Edit saying">
             Edit
           </Link>
         </Card>
