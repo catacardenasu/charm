@@ -26,7 +26,7 @@ function whenLabel(day: string) {
 /** "Maya tapped in with you today" / "You tapped in with Maya yesterday" */
 function describe(tapIn: RecentTapIn) {
   const when = whenLabel(tapIn.day)
-  return tapIn.scanned_by_me ? `You tapped in with ${tapIn.nickname} ${when}` : `${tapIn.nickname} tapped in with you ${when}`
+  return tapIn.scanned_by_me ? `You Charm’d ${tapIn.nickname} ${when}` : `${tapIn.nickname} Charm’d you ${when}`
 }
 
 /** /review: tap ins from the last 7 days, each with a remove option. */
@@ -63,21 +63,21 @@ export default function Review() {
         <Link to="/settings" className={styles.back}>
           ‹ Back
         </Link>
-        <h1 className={styles.title}>Tap in review</h1>
+        <h1 className={styles.title}>Charm review</h1>
       </header>
 
       <p className={styles.intro}>
-        Everyone who tapped in with you this week. Don’t recognize someone? Remove the tap in.
+        Everyone you Charm’d or who Charm’d you this week. Don’t recognize someone? Remove it.
       </p>
 
       {authLoading || loading ? (
         <p className={styles.message}>Loading…</p>
       ) : error ? (
         <p role="alert" className={styles.message}>
-          Couldn’t load your tap ins. {error}
+          Couldn’t load your Charms. {error}
         </p>
       ) : tapIns.length === 0 ? (
-        <p className={styles.message}>No tap ins in the last 7 days.</p>
+        <p className={styles.message}>No Charms in the last 7 days.</p>
       ) : (
         <ul className={styles.list}>
           {tapIns.map((tapIn) => (
@@ -90,7 +90,7 @@ export default function Review() {
                 type="button"
                 className={styles.remove}
                 onClick={() => setConfirming(tapIn)}
-                aria-label={`Remove tap in with ${tapIn.nickname}`}
+                aria-label={`Remove Charm with ${tapIn.nickname}`}
               >
                 Remove
               </button>
@@ -103,7 +103,7 @@ export default function Review() {
         open={confirming != null}
         onClose={closeModal}
         dismissible={!removing}
-        title={confirming ? `Remove tap in with ${confirming.nickname}?` : ''}
+        title={confirming ? `Remove Charm with ${confirming.nickname}?` : ''}
         actions={
           <>
             <Button variant="secondary" size="md" onClick={closeModal} disabled={removing}>

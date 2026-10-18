@@ -57,20 +57,13 @@ export const ALREADY_UPPER: ArcLetter[] = [
 ]
 
 export const ALREADY_LOWER: ArcLetter[] = [
-  { char: 'c', x: 0.0691, y: 4.1295, rotate: 35.32 },
-  { char: 'h', x: 0.4943, y: 4.3997, rotate: 29.55 },
-  { char: 'a', x: 0.9445, y: 4.6258, rotate: 23.77 },
-  { char: 'r', x: 1.4152, y: 4.8054, rotate: 18.00 },
-  { char: 'm', x: 1.9280, y: 4.9423, rotate: 11.91 },
-  { char: "’", x: 2.3808, y: 5.0163, rotate: 6.65 },
-  { char: 'd', x: 2.8115, y: 5.0478, rotate: 1.70 },
-  { char: ' ', x: 3.2658, y: 5.0406, rotate: -3.51 },
-  { char: 't', x: 3.6909, y: 4.9963, rotate: -8.41 },
-  { char: 'o', x: 4.1587, y: 4.9042, rotate: -13.87 },
-  { char: 'd', x: 4.6411, y: 4.7589, rotate: -19.65 },
-  { char: 'a', x: 5.1064, y: 4.5658, rotate: -25.42 },
-  { char: 'y', x: 5.5500, y: 4.3269, rotate: -31.20 },
-  { char: '!', x: 5.9094, y: 4.0875, rotate: -36.15 },
+  { char: 'c', x: 1.4887, y: 4.8431, rotate: 17.19 },
+  { char: 'h', x: 1.9842, y: 4.9694, rotate: 11.42 },
+  { char: 'a', x: 2.4907, y: 5.0454, rotate: 5.64 },
+  { char: 'r', x: 3.0015, y: 5.0700, rotate: -0.13 },
+  { char: 'm', x: 3.5404, y: 5.0401, rotate: -6.22 },
+  { char: "’", x: 4.0011, y: 4.9684, rotate: -11.48 },
+  { char: 'd', x: 4.4268, y: 4.8626, rotate: -16.43 },
 ]
 
 export const WORDMARK: ArcLetter[] = [
