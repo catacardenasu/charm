@@ -4,8 +4,9 @@ import { Navigate, useNavigate } from 'react-router-dom'
 import { Avatar } from '../components/Avatar.tsx'
 import { HAIR_COLORS, HAIR_STYLE_NAMES, SKINS } from '../components/avatarOptions.ts'
 import { ClosetItemTile } from '../components/shop/ClosetItemTile.tsx'
+import { HairStyleTile } from '../components/shop/HairStyleTile.tsx'
 import { useShopState } from '../components/shop/useShopState.ts'
-import { CategoryTabs, CoinBalance, ColorSwatch, ItemTile, SegmentedTabs } from '../components/ui/index.ts'
+import { CategoryTabs, CoinBalance, ColorSwatch, SegmentedTabs } from '../components/ui/index.ts'
 import { spriteSrc, type ShopItem, type ShopSlot } from '../data/shopMock.ts'
 import { useMyProfile } from '../hooks/useMyProfile.ts'
 import { useSaveProfile } from '../hooks/useSaveProfile.ts'
@@ -162,7 +163,14 @@ export default function Closet() {
           <ul className={styles.grid} aria-label="Hairstyles">
             {HAIR_STYLE_NAMES.map((name, i) => (
               <li key={name}>
-                <ItemTile name={name} selected={avatar.hairStyle === i + 1} onSelect={() => change({ hairStyle: i + 1 })} />
+                <HairStyleTile
+                  name={name}
+                  style={i + 1}
+                  skin={avatar.skin}
+                  hairColor={avatar.hairColor}
+                  selected={avatar.hairStyle === i + 1}
+                  onSelect={() => change({ hairStyle: i + 1 })}
+                />
               </li>
             ))}
           </ul>
