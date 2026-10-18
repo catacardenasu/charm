@@ -9,18 +9,27 @@ const cache = new Map<string, Promise<string | null>>()
  * The avatar part sprites sit on the full 21x31 canvas. For a shop tile, crop to the drawn pixels and
  * scale up by a whole number (nearest neighbour), so a hat fills the tile like in Figma.
  */
-function makeThumb(src: string): Promise<string | null> {
+/** A region of a sprite sheet, in source pixels. */
+export interface SpriteCell {
+  x: number
+  y: number
+  w: number
+  h: number
+}
+
+function makeThumb(src: string, cell?: SpriteCell): Promise<string | null> {
   return new Promise((resolve) => {
     const image = new Image()
     image.onerror = () => resolve(null)
     image.onload = () => {
-      const { width, height } = image
+      const width = cell?.w ?? image.width
+      const height = cell?.h ?? image.height
       const source = document.createElement('canvas')
       source.width = width
       source.height = height
       const ctx = source.getContext('2d')
       if (!ctx) return resolve(null)
-      ctx.drawImage(image, 0, 0)
+      ctx.drawImage(image, cell?.x ?? 0, cell?.y ?? 0, width, height, 0, 0, width, height)
       const { data } = ctx.getImageData(0, 0, width, height)
 
       let minX = width
@@ -56,23 +65,27 @@ function makeThumb(src: string): Promise<string | null> {
 }
 
 /** A cropped, integer-scaled version of a part sprite. Undefined until ready (the tile shows no image meanwhile). */
-export function useSpriteThumb(src: string): string | undefined {
-  const [thumb, setThumb] = useState<{ src: string; url: string | null } | null>(null)
+export function useSpriteThumb(src: string, cell?: SpriteCell): string | undefined {
+  const [thumb, setThumb] = useState<{ key: string; url: string | null } | null>(null)
+  const key = cell ? `${src}#${cell.x},${cell.y},${cell.w},${cell.h}` : src
 
   useEffect(() => {
     let cancelled = false
-    let promise = cache.get(src)
+    let promise = cache.get(key)
     if (!promise) {
-      promise = makeThumb(src)
-      cache.set(src, promise)
+      promise = makeThumb(src, cell)
+      cache.set(key, promise)
     }
     promise.then((url) => {
-      if (!cancelled) setThumb({ src, url })
+      if (!cancelled) setThumb({ key, url })
     })
     return () => {
       cancelled = true
     }
-  }, [src])
+    // cell is fully described by key
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key])
 
-  return thumb?.src === src ? (thumb.url ?? src) : undefined
+  // A failed crop falls back to the whole image only for single sprites, not for sheets.
+  return thumb?.key === key ? (thumb.url ?? (cell ? undefined : src)) : undefined
 }
