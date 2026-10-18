@@ -1,0 +1,20 @@
+.shell {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+/* Pinned to the bottom, edge to edge, running under the home indicator like the plaza's. */
+.nav {
+  position: sticky;
+  bottom: 0;
+  margin: 0 calc(var(--safe-right) * -1) calc(var(--safe-bottom) * -1) calc(var(--safe-left) * -1);
+  padding: 0 var(--safe-right) var(--safe-bottom) var(--safe-left);
+  background: var(--color-bg-dark);
+}

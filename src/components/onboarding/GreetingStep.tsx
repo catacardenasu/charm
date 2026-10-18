@@ -14,6 +14,10 @@ interface Props {
   onFinish: () => void
   saving: boolean
   error: string | null
+  /** Settings edit screen: its own title, no progress bar, "Done". */
+  title?: string
+  progress?: boolean
+  nextLabel?: string
 }
 
 const SUGGESTION_COUNT = 3
@@ -25,7 +29,18 @@ function pickSuggestions(current: readonly string[]): string[] {
 }
 
 /** Step 4: greeting, then save. */
-export default function GreetingStep({ greeting, avatar, onChange, onBack, onFinish, saving, error }: Props) {
+export default function GreetingStep({
+  greeting,
+  avatar,
+  onChange,
+  onBack,
+  onFinish,
+  saving,
+  error,
+  title = 'Say hi!',
+  progress = true,
+  nextLabel = 'Next',
+}: Props) {
   const [suggestions, setSuggestions] = useState<string[]>(() => GREETING_SUGGESTIONS.slice(0, SUGGESTION_COUNT))
 
   const submit = (e: FormEvent) => {
@@ -35,8 +50,8 @@ export default function GreetingStep({ greeting, avatar, onChange, onBack, onFin
 
   return (
     <StepFrame
-      step={4}
-      title="Say hi!"
+      step={progress ? 4 : undefined}
+      title={title}
       intro="A one liner people see when they enter your profile. Keep it short & charming!"
       onSubmit={submit}
       footer={
@@ -45,7 +60,7 @@ export default function GreetingStep({ greeting, avatar, onChange, onBack, onFin
             Back
           </Button>
           <Button type="submit" fullWidth disabled={saving}>
-            {saving ? 'Saving…' : 'Next'}
+            {saving ? 'Saving…' : nextLabel}
           </Button>
         </>
       }
