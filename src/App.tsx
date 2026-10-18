@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
 import ComponentGallery from './dev/ComponentGallery.tsx'
+import ScreensPreview from './dev/ScreensPreview.tsx'
 import Home from './pages/Home.tsx'
 import Keychain from './pages/Keychain.tsx'
 import NotFound from './pages/NotFound.tsx'
@@ -24,6 +25,7 @@ export default function App() {
       <Route path="/review" element={<Review />} />
       <Route path="/settings" element={<Settings />} />
       <Route path="/dev" element={<ComponentGallery />} />
+      <Route path="/dev/screens" element={<ScreensPreview />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   )

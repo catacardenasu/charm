@@ -1,3 +1,9 @@
+import { Link } from 'react-router-dom'
+import { Button } from '../ui/index.ts'
+import { StepFrame } from '../StepFrame.tsx'
+import { KeychainArt } from './KeychainArt.tsx'
+import styles from './keychain.module.css'
+
 interface Props {
   onClaim: () => void
   claiming: boolean
@@ -5,16 +11,35 @@ interface Props {
   message: string | null
 }
 
-/** Keychain has no owner yet: the Link keychain flow. */
+/** Keychain has no owner yet: the Link keychain flow, step 5 of sign up ("Linking Found" / "Linking Screen"). */
 export default function ClaimScreen({ onClaim, claiming, message }: Props) {
   return (
-    <section>
-      <h1>Claim this keychain?</h1>
-      <p>It'll be linked to you, and tapping it on a friend's phone will tap in with them.</p>
-      <button onClick={onClaim} disabled={claiming}>
-        {claiming ? 'Claiming…' : 'Claim keychain'}
-      </button>
-      {message && <p role="alert">{message}</p>}
-    </section>
+    <StepFrame
+      step={5}
+      title="Link your charm"
+      intro="Hold up your charm to the back of your phone, near your camera. It becomes your pass for meeting people."
+      footer={
+        <>
+          <Link to="/plaza" className={styles.secondary}>
+            Back
+          </Link>
+          <Button fullWidth onClick={onClaim} disabled={claiming}>
+            Done
+          </Button>
+        </>
+      }
+    >
+      <div className={styles.stage}>
+        <KeychainArt waves pulsing={claiming} />
+        <p className={styles.status} aria-live="polite">
+          {claiming ? 'Linking...' : 'Found!'}
+        </p>
+        {message && (
+          <p role="alert" className={styles.message}>
+            {message}
+          </p>
+        )}
+      </div>
+    </StepFrame>
   )
 }

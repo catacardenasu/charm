@@ -1,12 +1,24 @@
 import { Link } from 'react-router-dom'
+import { StepFrame } from '../StepFrame.tsx'
+import { KeychainArt } from './KeychainArt.tsx'
+import styles from './keychain.module.css'
 
 /** You tapped your own keychain. */
 export default function OwnKeychainScreen() {
   return (
-    <section>
-      <h1>This is your keychain</h1>
-      <p>Tap it on a friend's phone to tap in with them.</p>
-      <Link to="/plaza">Go to your plaza</Link>
-    </section>
+    <StepFrame
+      title="This is your keychain"
+      intro="Tap it on a friend's phone to tap in with them."
+      wideFooter
+      footer={
+        <Link to="/plaza" className={styles.primary}>
+          Go to your plaza
+        </Link>
+      }
+    >
+      <div className={styles.stage}>
+        <KeychainArt waves />
+      </div>
+    </StepFrame>
   )
 }

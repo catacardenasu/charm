@@ -2,8 +2,9 @@ import { Link } from 'react-router-dom'
 import type { PromptStatus } from '../../hooks/useTapIn.ts'
 import type { Profile, TapInResult } from '../../types.ts'
 import { Avatar } from '../Avatar.tsx'
+import { ArcText } from '../ArcText.tsx'
+import { ALREADY_LOWER, ALREADY_UPPER, MEET_LOWER, MEET_UPPER, SEE_LOWER } from '../arcLetters.ts'
 import { Badge, Button, Card, InterestTag, SPRITES } from '../ui/index.ts'
-import buttonStyles from '../ui/Button.module.css'
 import { cx } from '../ui/cx.ts'
 import styles from './TapInScreen.module.css'
 
@@ -18,169 +19,108 @@ interface Props {
 // A later tap in with weeks = 1 earns 10, so this pair only happens on a first meeting.
 const FIRST_MEETING_POINTS = 50
 
-type Variant = 'first' | 'again' | 'already'
-
-/**
- * The tap in result, from Figma "Meeting Somone" (33:781) and "Seeing you" (39:1347).
- * 'already' (tapped in earlier today) is a simpler version with no title arc or rewards.
- */
+/** The tap in result: both avatars, shared interests, prompt, streak, points and unlocks. */
 export default function TapInScreen({ me, result, prompt, promptStatus }: Props) {
-  const { other, shared_interests, streak_weeks, points_earned, newly_unlocked } = result
-  const variant: Variant =
-    result.status === 'already_today'
-      ? 'already'
-      : streak_weeks === 1 && points_earned === FIRST_MEETING_POINTS
-        ? 'first'
-        : 'again'
+  const { other, shared_interests, streak_weeks, points_earned, newly_unlocked, status } = result
+  const alreadyToday = status === 'already_today'
+  const firstMeeting = !alreadyToday && streak_weeks === 1 && points_earned === FIRST_MEETING_POINTS
   const myName = me?.nickname ?? 'You'
 
+  const title = alreadyToday ? "Already charm'd today!" : firstMeeting ? "Charm'd to meet you!" : "Charm'd to see you!"
+  const [line1, line2] = alreadyToday
+    ? [`${myName} and ${other.nickname} already tapped in today!`, 'Come back tomorrow for more.']
+    : firstMeeting
+      ? [`${myName} and ${other.nickname} meet!`, `You will now see ${other.nickname} in your plaza.`]
+      : [`${myName} and ${other.nickname} tapped in again!`, 'Another day, another charm.']
+
   return (
-    <section className={cx(styles.screen, styles[variant])}>
-      {variant === 'already' ? (
-        <header className={styles.simpleHeader}>
-          <h1 className={styles.simpleTitle}>Already charm’d today!</h1>
-          <Pair me={me} other={other} />
-          <p className={styles.caption}>
-            {myName} and {other.nickname} already tapped in today. Tap in again tomorrow.
-          </p>
-        </header>
-      ) : (
-        <header className={styles.hero}>
-          <ArcTitle variant={variant} />
-          <Pair me={me} other={other} />
-        </header>
-      )}
+    <section className={styles.screen}>
+      <div className={styles.hero}>
+        <h1 className={styles.title} aria-label={title}>
+          <ArcText letters={alreadyToday ? ALREADY_UPPER : MEET_UPPER} animate />
+          <ArcText letters={alreadyToday ? ALREADY_LOWER : firstMeeting ? MEET_LOWER : SEE_LOWER} animate />
+        </h1>
 
-      {variant === 'first' && (
-        <p className={styles.caption}>
-          {myName} and {other.nickname} meet!
+        {me && (
+          <span className={cx(styles.avatar, styles.mine)}>
+            <Avatar avatar={me.avatar} label={me.nickname} />
+          </span>
+        )}
+        <span className={cx(styles.avatar, styles.theirs)}>
+          <Avatar avatar={other.avatar} label={other.nickname} />
+        </span>
+        <img className={styles.sparkle} src="/sprites/charm/sparkle.png" alt="" />
+        {!alreadyToday && points_earned > 0 && (
+          <p className={styles.points} aria-hidden="true">
+            +{points_earned} points
+          </p>
+        )}
+      </div>
+
+      <div className={styles.details}>
+        <p className={styles.intro}>
+          {line1}
           <br />
-          You will now see {other.nickname} in your plaza.
+          {line2}
         </p>
-      )}
 
-      {variant === 'again' && (
-        <>
-          <p className={styles.caption}>
-            {myName} and {other.nickname} tapped in again!
-            <br />
-            Another day, another charm.
-          </p>
-          <Badge variant="streak" className={styles.streak}>
-            {streak_weeks} week streak
+        {!firstMeeting && streak_weeks > 0 && (
+          <Badge variant="streak">
+            {streak_weeks} {streak_weeks === 1 ? 'week' : 'weeks'} streak
           </Badge>
-        </>
-      )}
+        )}
 
-      {variant !== 'already' && (
-        <>
-          {shared_interests.length > 0 ? (
-            <ul className={styles.interests} aria-label="Shared interests">
-              {shared_interests.map((interest) => (
-                <li key={interest}>
-                  <InterestTag label={interest} selected />
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className={cx(styles.caption, styles.interests)}>No shared interests yet. Go find one!</p>
-          )}
+        {shared_interests.length > 0 ? (
+          <ul className={styles.interests} aria-label="Shared interests">
+            {shared_interests.map((interest) => (
+              <li key={interest}>
+                <InterestTag label={interest} selected />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className={styles.muted}>No shared interests yet. Go find one!</p>
+        )}
 
-          {points_earned > 0 && (
-            <div className={styles.rewards}>
-              <Badge variant="reward">+{points_earned} Points</Badge>
-            </div>
-          )}
+        {!alreadyToday && (points_earned > 0 || newly_unlocked.length > 0) && (
+          <div className={styles.rewards}>
+            {points_earned > 0 && (
+              <Badge variant="reward" className={styles.reward}>
+                +{points_earned} {points_earned === 1 ? 'Point' : 'Points'}
+              </Badge>
+            )}
+            {newly_unlocked.map((location) => (
+              <Badge key={location.id} variant="reward" className={styles.reward}>
+                Unlocked: {location.name}
+              </Badge>
+            ))}
+          </div>
+        )}
 
-          {newly_unlocked.map((location) => (
-            <Badge key={location.id} variant="status" className={styles.unlock}>
-              New plaza unlocked: {location.name}
-            </Badge>
-          ))}
-        </>
-      )}
+        <Card padding="md" className={styles.prompt}>
+          <span className={styles.promptLabel}>Your Prompt</span>
+          <span className={styles.promptText}>
+            {promptStatus === 'ready' && prompt}
+            {(promptStatus === 'idle' || promptStatus === 'loading') && 'Thinking of something to talk about…'}
+            {promptStatus === 'failed' && "Ask what they're up to this week!"}
+          </span>
+        </Card>
 
-      <Card variant="cream" padding="none" className={styles.prompt}>
-        <p className={styles.promptLabel}>Your Prompt</p>
-        <p className={styles.promptText} aria-live="polite">
-          {promptStatus === 'ready' && prompt}
-          {(promptStatus === 'idle' || promptStatus === 'loading') && 'Thinking of something to talk about…'}
-          {promptStatus === 'failed' && "Ask what they're up to this week!"}
-        </p>
-      </Card>
-
-      {variant === 'again' && (
-        // Memory photos aren't built yet (build order step 6).
-        <Button
-          variant="pill"
-          className={styles.memory}
-          icon={<img className={styles.camera} src={SPRITES.camera} alt="" />}
-          disabled
-        >
-          Snap a memory
-        </Button>
-      )}
+        {!alreadyToday && !firstMeeting && (
+          <Button variant="pill" disabled icon={<img src={SPRITES.camera} alt="" width={30} height={24} />}>
+            Snap a memory
+          </Button>
+        )}
+      </div>
 
       <footer className={styles.footer}>
-        <Link
-          to={`/u/${encodeURIComponent(other.id)}`}
-          className={cx(buttonStyles.button, buttonStyles.secondary, buttonStyles.lg, styles.footerButton)}
-        >
-          <span className={buttonStyles.label}>See {other.nickname}</span>
+        <Link to={`/u/${encodeURIComponent(other.id)}`} className={styles.secondaryLink}>
+          See {other.nickname}
         </Link>
-        <Link
-          to="/plaza"
-          className={cx(buttonStyles.button, buttonStyles.primary, buttonStyles.lg, styles.footerButton)}
-        >
-          <span className={buttonStyles.label}>Done</span>
+        <Link to="/plaza" className={styles.primaryLink}>
+          Done
         </Link>
       </footer>
     </section>
-  )
-}
-
-function Pair({ me, other }: { me: Profile | null; other: Profile }) {
-  return (
-    <div className={styles.pair}>
-      {me && <Avatar avatar={me.avatar} label={me.nickname} />}
-      <Avatar avatar={other.avatar} label={other.nickname} />
-    </div>
-  )
-}
-
-/**
- * "Charm'd to / meet you!" (or "see you!") curved around the avatars. Arc radii and letter
- * spacing are fitted to the per-letter rotations in the Figma frames; coordinates are in the
- * hero box, whose top is the bottom of the status bar.
- */
-function ArcTitle({ variant }: { variant: 'first' | 'again' }) {
-  const lower = variant === 'first' ? 'meet you!' : 'see you!'
-  const upperPath =
-    variant === 'first' ? 'M 44.2 163.5 A 181 181 0 0 1 357.8 163.5' : 'M 44.2 146.5 A 181 181 0 0 1 357.8 146.5'
-  const lowerPath =
-    variant === 'first' ? 'M 25.2 251.5 A 203 203 0 0 0 376.8 251.5' : 'M 6.2 255.6 A 303 303 0 0 0 395.8 255.6'
-  const upperId = `tapin-arc-upper-${variant}`
-  const lowerId = `tapin-arc-lower-${variant}`
-
-  return (
-    <h1 className={styles.title}>
-      <span className={styles.srOnly}>Charm'd to {lower}</span>
-      <svg className={styles.arc} viewBox={`0 0 402 ${variant === 'first' ? 376 : 348}`} aria-hidden="true">
-        <defs>
-          <path id={upperId} d={upperPath} />
-          <path id={lowerId} d={lowerPath} />
-        </defs>
-        <text>
-          <textPath href={`#${upperId}`} startOffset="50%" textAnchor="middle">
-            charm’d to
-          </textPath>
-        </text>
-        <text>
-          <textPath href={`#${lowerId}`} startOffset="50%" textAnchor="middle">
-            {lower}
-          </textPath>
-        </text>
-      </svg>
-    </h1>
   )
 }

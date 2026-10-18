@@ -1,0 +1,73 @@
+/* Figma "Linking Screen": 230x245 keychain, 64x78 gator on it, signal waves 70px either side. */
+.art {
+  position: relative;
+  flex-shrink: 0;
+  width: 291px;
+  height: 245px;
+}
+
+.keychain {
+  position: absolute;
+  top: 0;
+  left: 23px;
+  width: 230px;
+  height: 245px;
+}
+
+.character {
+  position: absolute;
+  top: 130px;
+  left: 107px;
+  width: 64px;
+  height: 78px;
+}
+
+.waves {
+  position: absolute;
+  top: 120px;
+  width: 77px;
+  height: 98px;
+}
+
+.left {
+  left: 0;
+  transform: scaleX(-1);
+}
+
+.right {
+  left: 214px;
+}
+
+.dim {
+  filter: grayscale(1);
+  opacity: 0.5;
+}
+
+.pulse {
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+.left.pulse {
+  animation-name: pulse-left;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.35;
+    transform: translateX(4px);
+  }
+}
+
+@keyframes pulse-left {
+  50% {
+    opacity: 0.35;
+    transform: scaleX(-1) translateX(4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse,
+  .left.pulse {
+    animation: none;
+  }
+}
