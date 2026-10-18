@@ -4,7 +4,8 @@ import type { Profile, TapInResult } from '../../types.ts'
 import { Avatar } from '../Avatar.tsx'
 import { ArcText } from '../ArcText.tsx'
 import { ALREADY_LOWER, ALREADY_UPPER, MEET_LOWER, MEET_UPPER, SEE_LOWER } from '../arcLetters.ts'
-import { Badge, Button, Card, InterestTag, SPRITES } from '../ui/index.ts'
+import { MemoryCapture } from '../memories/MemoryCapture.tsx'
+import { Badge, Card, InterestTag } from '../ui/index.ts'
 import { cx } from '../ui/cx.ts'
 import styles from './TapInScreen.module.css'
 
@@ -33,7 +34,7 @@ export default function TapInScreen({ me, result, prompt, promptStatus }: Props)
     .filter(Boolean)
     .join(' · ')
 
-  const title = alreadyToday ? "Already charm'd today!" : firstMeeting ? "Charm'd to meet you!" : "Charm'd to see you!"
+  const title = alreadyToday ? "Already charm'd" : firstMeeting ? "Charm'd to meet you!" : "Charm'd to see you!"
   const [line1, line2] = alreadyToday
     ? [`${myName} and ${other.nickname} already tapped in today!`, 'Come back tomorrow for more.']
     : firstMeeting
@@ -114,9 +115,7 @@ export default function TapInScreen({ me, result, prompt, promptStatus }: Props)
         </Card>
 
         {!alreadyToday && !firstMeeting && (
-          <Button variant="pill" disabled icon={<img src={SPRITES.camera} alt="" width={30} height={24} />}>
-            Snap a memory
-          </Button>
+          <MemoryCapture tapInId={result.tap_in_id} />
         )}
       </div>
 

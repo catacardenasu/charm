@@ -3,7 +3,9 @@ import { useState } from 'react'
 import { Link, Navigate } from 'react-router-dom'
 import { Avatar } from '../components/Avatar.tsx'
 import { Card, InterestTag, ProgressBar, SegmentedTabs } from '../components/ui/index.ts'
+import { MemoryGallery } from '../components/memories/MemoryGallery.tsx'
 import { useLocations } from '../hooks/useLocations.ts'
+import { useMemories } from '../hooks/useMemories.ts'
 import { useMyProfile } from '../hooks/useMyProfile.ts'
 import { usePlazaVersion } from '../lib/plazaRefresh.ts'
 import { onboardingPath } from '../lib/returnTo.ts'
@@ -17,6 +19,13 @@ export default function Me() {
   const { profile, loading } = useMyProfile(usePlazaVersion())
   const { locations, uniquePeopleMet, loading: locationsLoading } = useLocations()
   const [tab, setTab] = useState<Tab>('interests')
+  const {
+    memories,
+    loading: memoriesLoading,
+    error: memoriesError,
+    refresh: reloadMemories,
+    removeMemory,
+  } = useMemories()
 
   if (authLoading || loading) return <p className={styles.loading}>Loading…</p>
   if (!isAuthenticated) return <Navigate to="/" replace />
@@ -96,8 +105,13 @@ export default function Me() {
               </Link>
             </>
           ) : (
-            // Memory photos come later (build order step 6).
-            <p className={styles.empty}>Memories from your tap ins will show up here.</p>
+            <MemoryGallery
+              memories={memories}
+              loading={memoriesLoading}
+              error={memoriesError}
+              onRetry={reloadMemories}
+              onDelete={removeMemory}
+            />
           )}
         </div>
       </section>
