@@ -15,9 +15,9 @@ interface Props {
   promptStatus: PromptStatus
 }
 
-// CLAUDE.md game rules: a first meeting earns 50 points and starts a 1-week streak.
-// A later tap in with weeks = 1 earns 10, so this pair only happens on a first meeting.
-const FIRST_MEETING_POINTS = 50
+// 011_coins.sql: a first meeting earns 20 points (every later tap in earns 10),
+// so this amount only happens on a first meeting.
+const FIRST_MEETING_POINTS = 20
 
 /** The tap in result: both avatars, shared interests, prompt, streak, points and unlocks. */
 export default function TapInScreen({ me, result, prompt, promptStatus }: Props) {

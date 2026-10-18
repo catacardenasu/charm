@@ -4,10 +4,10 @@ import { useSupabase } from '../lib/supabase.ts'
 import type { Avatar, BuyCosmeticResult, EquipCosmeticResult, ShopCosmetic } from '../types.ts'
 import { toAvatar } from './usePlaza.ts'
 
-// The costume shop (007_shop.sql): every cosmetic with owned/equipped flags,
+// The costume shop (007_shop.sql, buying with coins since 011_coins.sql): every cosmetic with owned/equipped flags,
 // plus buyCosmetic() and equipCosmetic(). Both update the list in place, so
 // there's no refetch after a purchase. Call useMyProfile's refresh() afterwards
-// if a screen shows points or the avatar from the profile.
+// if a screen shows coins or the avatar from the profile.
 
 interface ShopResult {
   cosmetics: ShopCosmetic[]

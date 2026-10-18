@@ -25,7 +25,8 @@ const tapIn = (changes: Partial<TapInResult>): TapInResult => ({
   other: mockProfiles[1],
   shared_interests: ['coffee', 'hiking'],
   streak_weeks: 1,
-  points_earned: 50,
+  points_earned: 20,
+  coins_earned: 10,
   newly_unlocked: [],
   ...changes,
 })
@@ -84,13 +85,13 @@ export default function ScreensPreview() {
       return (
         <TapInScreen
           me={me}
-          result={tapIn({ streak_weeks: 4, points_earned: 25 })}
+          result={tapIn({ streak_weeks: 4, points_earned: 10, coins_earned: 5 })}
           prompt="Would you rather do yoga outside or in a studio?"
           promptStatus="ready"
         />
       )
     case 'tapin-today':
-      return <TapInScreen me={me} result={tapIn({ status: 'already_today', streak_weeks: 4, points_earned: 0 })} prompt={null} promptStatus="loading" />
+      return <TapInScreen me={me} result={tapIn({ status: 'already_today', streak_weeks: 4, points_earned: 0, coins_earned: 0 })} prompt={null} promptStatus="loading" />
     case 'claim':
       return <ClaimScreen onClaim={noop} claiming={false} message={null} />
     case 'claim-busy':

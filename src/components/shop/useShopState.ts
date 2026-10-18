@@ -11,7 +11,7 @@ import type { ShopCosmetic } from '../../types.ts'
 // - Order, tags and descriptions come from Naty's catalog in shopMock.ts (matched by id),
 //   so the grids keep the Figma order. Paid items missing from the catalog are added at the end.
 // - Free items (price 0, the basic outfits) are left out of the shop; the Closet adds those itself.
-// - Points come from my profile and update right after a purchase.
+// - The balance is my coins (011_coins.sql), from my profile, and updates right after a purchase.
 
 const CATEGORY_BY_SLOT: Record<ShopSlot, ShopCategory> = {
   hat: 'hats',
@@ -23,6 +23,7 @@ const isShopSlot = (slot: string): slot is ShopSlot => slot in CATEGORY_BY_SLOT
 
 export interface ShopState {
   items: ShopItem[]
+  /** My coins, the shop's currency. Named `points` so the Shop and Closet pages don't change. */
   points: number
   ownedIds: ReadonlySet<string>
   /** Buys the item. Resolves true when it was bought. */
@@ -37,8 +38,8 @@ export interface ShopState {
 export function useShopState(): ShopState {
   const shop = useShop()
   const { profile, refresh: refreshProfile } = useMyProfile()
-  // Points returned by the last purchase, until the profile refetch catches up.
-  const [pointsAfterBuy, setPointsAfterBuy] = useState<number | null>(null)
+  // Coins returned by the last purchase, until the profile refetch catches up.
+  const [coinsAfterBuy, setCoinsAfterBuy] = useState<number | null>(null)
 
   const items = useMemo(() => {
     const fromDb = new Map<string, ShopCosmetic>(shop.cosmetics.map((c) => [c.id, c]))
@@ -65,7 +66,7 @@ export function useShopState(): ShopState {
     [shop.cosmetics],
   )
 
-  const points = pointsAfterBuy ?? profile?.points ?? 0
+  const coins = coinsAfterBuy ?? profile?.coins ?? 0
 
   const { buyCosmetic } = shop
   const buy = useCallback(
@@ -73,7 +74,7 @@ export function useShopState(): ShopState {
       try {
         const result = await buyCosmetic(item.id)
         if (result.status === 'bought') {
-          setPointsAfterBuy(result.points)
+          setCoinsAfterBuy(result.coins)
           refreshProfile()
           return true
         }
@@ -87,7 +88,7 @@ export function useShopState(): ShopState {
 
   return {
     items,
-    points,
+    points: coins,
     ownedIds,
     buy,
     loading: shop.loading,
