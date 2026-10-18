@@ -1,0 +1,135 @@
+/* Figma "Activity - Leaderboard" (38:1000), the default tab of /activity. */
+
+.message {
+  margin-top: var(--space-24);
+  font-size: var(--font-size-16);
+  text-align: center;
+}
+
+/* Three 125px columns, blocks on one baseline: 2nd | 1st | 3rd. */
+.podium {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 125px));
+  align-items: end;
+  justify-content: center;
+  width: 100%;
+  max-width: 375px;
+  margin: 23px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.spot {
+  grid-row: 1;
+  min-width: 0;
+}
+
+.first {
+  grid-column: 2;
+}
+
+.second {
+  grid-column: 1;
+}
+
+.third {
+  grid-column: 3;
+}
+
+.spotInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+}
+
+.spotButton {
+  composes: pressable from '../components/ui/shared.module.css';
+}
+
+/* Full Charmling at 3x (63x93), standing on the block. */
+.podiumAvatar.podiumAvatar {
+  --avatar-scale: 3;
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-6) var(--space-6) 0;
+  border-radius: var(--radius-8);
+  background: var(--color-bg-light);
+  color: var(--color-text-dark);
+  font-family: var(--font-display);
+  line-height: 1;
+}
+
+/* Block heights from Figma: 1st 108, 2nd 77, 3rd 50 (grows if the text needs it). */
+.first .block {
+  gap: var(--space-8);
+  min-height: 108px;
+  padding-top: 7px;
+}
+
+.second .block {
+  min-height: 77px;
+  padding-top: var(--space-8);
+}
+
+.third .block {
+  min-height: 50px;
+}
+
+/* 1st place, and my spot wherever it is. */
+.highlighted {
+  background: var(--color-primary);
+}
+
+.blockName {
+  max-width: 100%;
+  overflow: hidden;
+  font-size: var(--font-size-24);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.blockPoints {
+  font-size: var(--font-size-20);
+}
+
+.first .blockPoints {
+  font-size: var(--font-size-32);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  max-width: 375px;
+  margin: 17px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* The Charmling's head: top half of the 2x plaza avatar, in ListRow's 47x31 avatar slot. */
+.head {
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 47px;
+  height: 31px;
+  overflow: hidden;
+}
+
+/* The sprite has headroom for hats; lift it so the face sits in the window. */
+.head > * {
+  margin-top: -16px;
+}

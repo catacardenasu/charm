@@ -56,7 +56,7 @@ export default function Plaza() {
             />
             {empty && (
               <Card className={styles.empty}>
-                <p>Tap someone’s charm to fill your plaza!</p>
+                <p>Tap someoneâ€™s charm to fill your plaza!</p>
               </Card>
             )}
             <PointsBalance className={styles.points} />

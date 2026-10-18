@@ -1,38 +1,25 @@
 import { useNavigate } from 'react-router-dom'
 import { Avatar } from '../components/Avatar.tsx'
-import { SegmentedTabs, StreakFlame } from '../components/ui/index.ts'
+import { StreakFlame } from '../components/ui/index.ts'
 import rowStyles from '../components/ui/ListRow.module.css'
 import { cx } from '../components/ui/cx.ts'
 import { useStreaks } from '../hooks/useStreaks.ts'
 import type { StreakEntry } from '../types.ts'
-import styles from './Streaks.module.css'
+import styles from './StreaksTab.module.css'
 
 /** At-risk first ("tap in by Sunday"), then longest streak, then name. */
 function byUrgency(a: StreakEntry, b: StreakEntry) {
   return Number(b.at_risk) - Number(a.at_risk) || b.weeks - a.weeks || a.nickname.localeCompare(b.nickname)
 }
 
-/** /streaks, Figma "Activity - Streaks" (40:685). */
-export default function Streaks() {
+/** Streaks tab of /activity (?tab=streaks), Figma "Activity - Streaks" (40:685). */
+export function StreaksTab() {
   const { streaks, loading, error } = useStreaks()
   const navigate = useNavigate()
   const sorted = [...streaks].sort(byUrgency)
 
   return (
-    <main className={styles.screen}>
-      <h1 className={styles.title}>Activity</h1>
-
-      <SegmentedTabs
-        ariaLabel="Activity"
-        value="streaks"
-        onChange={() => {}}
-        options={[
-          { value: 'leaderboard', label: 'Leaderboard (soon)', disabled: true },
-          { value: 'streaks', label: 'Streaks' },
-        ]}
-        className={styles.tabs}
-      />
-
+    <>
       <p className={styles.intro}>Meet once a week with your charmlings to keep a streak!</p>
       <StreakFlame size="xl" className={styles.flame} />
 
@@ -53,7 +40,7 @@ export default function Streaks() {
           ))}
         </ul>
       )}
-    </main>
+    </>
   )
 }
 

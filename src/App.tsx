@@ -1,7 +1,8 @@
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import ComponentGallery from './dev/ComponentGallery.tsx'
 import ScreensPreview from './dev/ScreensPreview.tsx'
 import { NavLayout } from './components/NavLayout.tsx'
+import Activity from './pages/Activity.tsx'
 import Closet from './pages/Closet.tsx'
 import Home from './pages/Home.tsx'
 import Keychain from './pages/Keychain.tsx'
@@ -13,7 +14,6 @@ import Review from './pages/Review.tsx'
 import Settings from './pages/Settings.tsx'
 import { EditInterests, EditLine, EditProfile } from './pages/SettingsEdit.tsx'
 import Shop from './pages/Shop.tsx'
-import Streaks from './pages/Streaks.tsx'
 import UserDetail from './pages/UserDetail.tsx'
 
 export default function App() {
@@ -26,7 +26,8 @@ export default function App() {
       <Route path="/u/:userId" element={<UserDetail />} />
       {/* Bottom nav pages. /plaza draws its own nav (edge-to-edge map). */}
       <Route element={<NavLayout />}>
-        <Route path="/streaks" element={<Streaks />} />
+        <Route path="/activity" element={<Activity />} />
+        <Route path="/streaks" element={<Navigate to="/activity?tab=streaks" replace />} />
         <Route path="/shop" element={<Shop />} />
         <Route path="/closet" element={<Closet />} />
         <Route path="/me" element={<Me />} />
