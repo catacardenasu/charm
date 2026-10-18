@@ -46,7 +46,7 @@ function toPerson(row: PlazaRow): PlazaPerson {
 // One shared empty array, so the scene doesn't restart while loading.
 const NO_PEOPLE: PlazaPerson[] = []
 
-export function usePlaza(locationId: string) {
+export function usePlaza(locationId: string, refreshKey = 0) {
   const supabase = useSupabase()
   const { isLoading: authLoading, isAuthenticated } = useAuth0()
   const [result, setResult] = useState<{ key: string; people: PlazaPerson[]; error: string | null } | null>(null)
@@ -68,7 +68,7 @@ export function usePlaza(locationId: string) {
     return () => {
       cancelled = true
     }
-  }, [authLoading, isAuthenticated, supabase, locationId, reloads])
+  }, [authLoading, isAuthenticated, supabase, locationId, reloads, refreshKey])
 
   const loading = result?.key !== locationId
   return {

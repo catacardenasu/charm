@@ -247,3 +247,14 @@ export interface EquipCosmeticResult {
   /** My avatar after equipping. Only when status is 'equipped'. */
   avatar?: Avatar
 }
+
+/** One row of rpc('my_leaderboard') (supabase/sql/010_leaderboard.sql): me plus everyone I've met. */
+export interface LeaderboardEntry {
+  id: UserId
+  nickname: string
+  avatar: Avatar
+  points: number
+  /** 1-based, by points. Ties share a rank (1, 2, 2, 4). */
+  rank: number
+  is_me: boolean
+}
