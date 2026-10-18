@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Avatar } from '../components/Avatar.tsx'
 import { ShopItemTile } from '../components/shop/ShopItemTile.tsx'
-import { useMockShop } from '../components/shop/useMockShop.ts'
+import { useShopState } from '../components/shop/useShopState.ts'
 import { Badge, Button, CategoryTabs, CoinBalance, Modal, SegmentedTabs } from '../components/ui/index.ts'
 import { DEFAULT_AVATAR } from '../data/profileOptions.ts'
 import type { ShopCategory, ShopItem } from '../data/shopMock.ts'
@@ -24,7 +24,7 @@ function wearing(avatar: AvatarData, item: ShopItem | undefined): AvatarData {
 /** /shop, Figma "Shop" (34:955) with the grids Hats (95:541), Accessories (95:542) and Clothing (95:543). */
 export default function Shop() {
   // MOCK: swap this one line for Katie's useShop() when it exists. It needs the same shape as useMockShop's result.
-  const { items, points, ownedIds, buy } = useMockShop()
+  const { items, points, ownedIds, buy } = useShopState()
 
   const navigate = useNavigate()
   const { profile } = useMyProfile()

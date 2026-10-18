@@ -4,7 +4,7 @@ import { Navigate, useNavigate } from 'react-router-dom'
 import { Avatar } from '../components/Avatar.tsx'
 import { HAIR_COLORS, HAIR_STYLE_NAMES, SKINS } from '../components/avatarOptions.ts'
 import { ClosetItemTile } from '../components/shop/ClosetItemTile.tsx'
-import { useMockShop } from '../components/shop/useMockShop.ts'
+import { useShopState } from '../components/shop/useShopState.ts'
 import { CategoryTabs, CoinBalance, ColorSwatch, ItemTile, SegmentedTabs } from '../components/ui/index.ts'
 import { spriteSrc, type ShopItem, type ShopSlot } from '../data/shopMock.ts'
 import { useMyProfile } from '../hooks/useMyProfile.ts'
@@ -44,8 +44,8 @@ export default function Closet() {
   const { isAuthenticated, isLoading: authLoading } = useAuth0()
   const { profile, loading } = useMyProfile()
   const { saveProfile, error: saveError } = useSaveProfile()
-  // MOCK: swap this one line for Katie's my_cosmetics when it exists. It only needs `items`, `ownedIds` and `points`.
-  const { items, ownedIds, points } = useMockShop()
+  // Real shop data: Katie's my_cosmetics (007_shop.sql), adapted to the shape this page uses.
+  const { items, ownedIds, points } = useShopState()
   const navigate = useNavigate()
 
   const [category, setCategory] = useState<Category>('hats')
