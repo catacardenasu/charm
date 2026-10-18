@@ -54,4 +54,5 @@
 
 .error {
   color: var(--color-primary);
+  white-space: pre-line; /* the error detail goes on its own line */
 }
