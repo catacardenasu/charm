@@ -73,3 +73,21 @@
   outline: var(--focus-ring-width) solid var(--color-focus);
   border-radius: 50%;
 }
+
+/* Nobody met yet: a cream card centered over the empty scene. */
+.empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  width: calc(100% - 2 * var(--space-24));
+  max-width: 320px;
+  font-family: var(--font-body);
+  font-size: var(--font-size-15);
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+
+.empty p {
+  margin: 0;
+}
