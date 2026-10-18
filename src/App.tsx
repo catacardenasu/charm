@@ -1,8 +1,11 @@
 import { Route, Routes } from 'react-router-dom'
 import ComponentGallery from './dev/ComponentGallery.tsx'
 import ScreensPreview from './dev/ScreensPreview.tsx'
+import { NavLayout } from './components/NavLayout.tsx'
+import Closet from './pages/Closet.tsx'
 import Home from './pages/Home.tsx'
 import Keychain from './pages/Keychain.tsx'
+import Me from './pages/Me.tsx'
 import NotFound from './pages/NotFound.tsx'
 import Onboarding from './pages/Onboarding.tsx'
 import Plaza from './pages/Plaza.tsx'
@@ -20,10 +23,15 @@ export default function App() {
       <Route path="/onboarding" element={<Onboarding />} />
       <Route path="/plaza/:locationId?" element={<Plaza />} />
       <Route path="/u/:userId" element={<UserDetail />} />
-      <Route path="/streaks" element={<Streaks />} />
-      <Route path="/shop" element={<Shop />} />
+      {/* Bottom nav pages. /plaza draws its own nav (edge-to-edge map). */}
+      <Route element={<NavLayout />}>
+        <Route path="/streaks" element={<Streaks />} />
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/me" element={<Me />} />
+        <Route path="/settings" element={<Settings />} />
+      </Route>
+      <Route path="/closet" element={<Closet />} />
       <Route path="/review" element={<Review />} />
-      <Route path="/settings" element={<Settings />} />
       <Route path="/dev" element={<ComponentGallery />} />
       <Route path="/dev/screens" element={<ScreensPreview />} />
       <Route path="*" element={<NotFound />} />

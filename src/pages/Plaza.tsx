@@ -1,7 +1,8 @@
 import { Navigate, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { PlazaScene } from '../components/PlazaScene.tsx'
 import { PlazaSwitcher } from '../components/PlazaSwitcher.tsx'
-import { BottomNav, type NavKey } from '../components/ui/index.ts'
+import { AppNav } from '../components/AppNav.tsx'
+import { PointsBalance } from '../components/PointsBalance.tsx'
 import { cx } from '../components/ui/cx.ts'
 import { DEFAULT_LOCATION_ID, PLAZA_SCENES } from '../data/plazas.ts'
 import { mockLocations, mockPlaza, mockUniquePeopleMet } from '../data/mock.ts'
@@ -27,16 +28,6 @@ export default function Plaza() {
   const switching = search.has('plazas')
   const unlocked = locations.filter((l) => uniquePeopleMet >= l.unlock_at)
 
-  const go = (key: NavKey) => {
-    const routes: Record<NavKey, string> = {
-      home: `/plaza/${locationId}`,
-      activity: '/streaks',
-      shop: '/shop',
-      plazas: `/plaza/${locationId}?plazas`,
-      profile: '/settings',
-    }
-    navigate(routes[key])
-  }
 
   return (
     <div className={styles.screen}>
@@ -56,6 +47,7 @@ export default function Plaza() {
               onSelectPerson={(userId) => navigate(`/u/${encodeURIComponent(userId)}`)}
               debug={devParams?.has('walk')}
             />
+            <PointsBalance className={styles.points} />
             {unlocked.length > 1 && (
               <nav className={styles.dots} aria-label="Plazas">
                 {unlocked.map((l) => (
@@ -74,7 +66,10 @@ export default function Plaza() {
         )}
       </div>
       <div className={styles.nav}>
-        <BottomNav active={switching ? 'plazas' : 'home'} onSelect={go} />
+        <AppNav
+          active={switching ? 'plazas' : 'home'}
+          routes={{ home: `/plaza/${locationId}`, plazas: `/plaza/${locationId}?plazas` }}
+        />
       </div>
     </div>
   )

@@ -10,8 +10,11 @@ interface Loaded {
   error: PostgrestError | null
 }
 
-/** The logged-in user's profile. `profile` is null when logged out or before onboarding. */
-export function useMyProfile() {
+/**
+ * The logged-in user's profile. `profile` is null when logged out or before onboarding.
+ * Changing `refreshKey` refetches (e.g. pass usePlazaVersion() to reload after a tap in).
+ */
+export function useMyProfile(refreshKey = 0) {
   const { user, isAuthenticated, isLoading: authLoading } = useAuth0()
   const supabase = useSupabase()
   const sub = isAuthenticated ? user?.sub : undefined
@@ -19,7 +22,7 @@ export function useMyProfile() {
   const [loaded, setLoaded] = useState<Loaded | null>(null)
 
   // Results are tagged with the request key so a stale response never shows for a new user.
-  const key = sub ? `${sub}:${version}` : null
+  const key = sub ? `${sub}:${version}:${refreshKey}` : null
 
   useEffect(() => {
     if (!sub || !key) return
