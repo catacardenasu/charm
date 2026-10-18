@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import type { Avatar as AvatarData, HairColor, SkinTone } from '../types.ts'
+import type { Avatar as AvatarData } from '../types.ts'
 import { Avatar } from './Avatar.tsx'
+import { HAIR_COLORS, HAIR_STYLE_NAMES, SKINS } from './avatarOptions.ts'
 import { CategoryTabs, ColorSwatch } from './ui/index.ts'
 import { cx } from './ui/cx.ts'
 import styles from './AvatarCreator.module.css'
@@ -17,40 +18,6 @@ const TABS = [
   { value: 'skin', label: 'Skin' },
   { value: 'hair', label: 'Hair' },
   { value: 'clothing', label: 'Clothing' },
-] as const
-
-// Skin and hair palettes, in Figma order. Swatch colors come from tokens.css.
-const SKINS: ReadonlyArray<{ id: SkinTone; label: string; color: string }> = [
-  { id: 'pale', label: 'Light', color: 'var(--swatch-skin-light)' },
-  { id: 'tan', label: 'Medium', color: 'var(--swatch-skin-medium)' },
-  { id: 'dark', label: 'Dark', color: 'var(--swatch-skin-dark)' },
-]
-
-const HAIR_COLORS: ReadonlyArray<{ id: HairColor; label: string; color: string }> = [
-  { id: 'brown', label: 'Brown', color: 'var(--swatch-hair-brown)' },
-  { id: 'black', label: 'Black', color: 'var(--swatch-hair-black)' },
-  { id: 'blonde', label: 'Gold', color: 'var(--swatch-hair-gold)' },
-  { id: 'red', label: 'Red', color: 'var(--swatch-hair-red)' },
-  { id: 'blue', label: 'Blue', color: 'var(--swatch-hair-blue)' },
-  { id: 'purple', label: 'Purple', color: 'var(--swatch-hair-purple)' },
-  { id: 'pink', label: 'Pink', color: 'var(--swatch-hair-pink)' },
-  { id: 'green', label: 'Green', color: 'var(--swatch-hair-green)' },
-]
-
-// Hairstyle names from Figma "Closet - Hair", in hair sheet order (style 1 to 12).
-const HAIR_STYLE_NAMES = [
-  'Fluffy Mess',
-  'Side Sweep',
-  'Bowl Cut',
-  'Tousled',
-  'Soft Bob',
-  'Straight',
-  'Beach Waves',
-  'High Pony',
-  'Side Pony',
-  'Space Buns',
-  'Top Knot',
-  'Twin Braids',
 ] as const
 
 const STYLE_COUNT = HAIR_STYLE_NAMES.length

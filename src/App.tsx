@@ -28,6 +28,7 @@ export default function App() {
       <Route element={<NavLayout />}>
         <Route path="/streaks" element={<Streaks />} />
         <Route path="/shop" element={<Shop />} />
+        <Route path="/closet" element={<Closet />} />
         <Route path="/me" element={<Me />} />
         <Route path="/settings" element={<Settings />} />
       </Route>
@@ -35,7 +36,6 @@ export default function App() {
       <Route path="/settings/profile" element={<EditProfile />} />
       <Route path="/settings/interests" element={<EditInterests />} />
       <Route path="/settings/line" element={<EditLine />} />
-      <Route path="/closet" element={<Closet />} />
       <Route path="/review" element={<Review />} />
       <Route path="/dev" element={<ComponentGallery />} />
       <Route path="/dev/screens" element={<ScreensPreview />} />
