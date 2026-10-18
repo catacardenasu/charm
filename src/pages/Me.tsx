@@ -23,8 +23,9 @@ export default function Me() {
     memories,
     loading: memoriesLoading,
     error: memoriesError,
-    reload: reloadMemories,
-  } = useMemories(tab === 'memories')
+    refresh: reloadMemories,
+    removeMemory,
+  } = useMemories()
 
   if (authLoading || loading) return <p className={styles.loading}>Loading…</p>
   if (!isAuthenticated) return <Navigate to="/" replace />
@@ -104,7 +105,13 @@ export default function Me() {
               </Link>
             </>
           ) : (
-            <MemoryGallery memories={memories} loading={memoriesLoading} error={memoriesError} onRetry={reloadMemories} />
+            <MemoryGallery
+              memories={memories}
+              loading={memoriesLoading}
+              error={memoriesError}
+              onRetry={reloadMemories}
+              onDelete={removeMemory}
+            />
           )}
         </div>
       </section>

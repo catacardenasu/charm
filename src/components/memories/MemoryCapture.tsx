@@ -1,6 +1,7 @@
+import { useAuth0 } from '@auth0/auth0-react'
 import { useEffect, useRef, useState, type ChangeEvent } from 'react'
-import { useSaveMemory } from '../../hooks/useMemories.ts'
-import { compressImage } from '../../lib/image.ts'
+import { compressPhoto, uploadMemory } from '../../lib/memories.ts'
+import { useSupabase } from '../../lib/supabase.ts'
 import { Button, Modal, SPRITES } from '../ui/index.ts'
 import styles from './MemoryCapture.module.css'
 
@@ -10,9 +11,11 @@ type Step = 'idle' | 'preparing' | 'preview' | 'saving' | 'saved'
  * "Snap a memory": opens the iPhone camera, previews the photo, then saves it for this tap in.
  * iOS Safari opens the camera for <input type="file" capture>; the second input (no capture) is the
  * photo-library fallback. Nothing is shown as saved until the upload and the database row both succeed.
+ * Storage and the save_memory() call are Katie's (src/lib/memories.ts); this is only the UI around them.
  */
 export function MemoryCapture({ tapInId }: { tapInId: string }) {
-  const saveMemory = useSaveMemory()
+  const supabase = useSupabase()
+  const { user } = useAuth0()
   const cameraInput = useRef<HTMLInputElement>(null)
   const libraryInput = useRef<HTMLInputElement>(null)
   const [step, setStep] = useState<Step>('idle')
@@ -37,25 +40,31 @@ export function MemoryCapture({ tapInId }: { tapInId: string }) {
     setError(null)
     setStep('preparing')
     try {
-      const blob = await compressImage(file)
+      // Re-encodes as a JPEG (iPhone HEIC included) under the bucket's 5 MB limit, so what you preview is what's uploaded.
+      const blob = await compressPhoto(file)
       setPhoto({ blob, url: URL.createObjectURL(blob) })
       setStep('preview')
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Could not read that photo.')
+      const tooLarge = e instanceof Error && /too large/i.test(e.message)
+      setError(tooLarge ? 'That photo is too large to save. Try another.' : 'Couldn’t read that photo. Try another.')
       setStep('idle')
     }
   }
 
   const onSave = async () => {
     if (!photo) return
+    if (!user?.sub) {
+      setError('Log in to save memories.')
+      return
+    }
     setError(null)
     setStep('saving')
-    const result = await saveMemory(tapInId, photo.blob)
-    if (result.ok) {
+    try {
+      await uploadMemory(supabase, { tapInId, uploaderId: user.sub, photo: photo.blob })
       setPhoto(null)
       setStep('saved')
-    } else {
-      setError(result.message)
+    } catch {
+      setError('Couldn’t save your memory. Check your connection and try again.')
       setStep('preview')
     }
   }

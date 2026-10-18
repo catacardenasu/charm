@@ -235,6 +235,36 @@ export interface RecentTapIn {
   created_at: string
 }
 
+/** A row of `memories` (what save_memory() returns). One photo per person per tap in. */
+export interface MemoryRow {
+  id: string
+  tap_in_id: string
+  uploader_id: UserId
+  /** Path inside the private `memories` bucket: '{tap_in_id}/{uploader key}.jpg'. */
+  storage_path: string
+  created_at: string
+}
+
+/** One row of rpc('my_memories') (supabase/sql/012_memories.sql). */
+export interface MemoryEntry {
+  id: string
+  tap_in_id: string
+  uploader_id: UserId
+  uploaded_by_me: boolean
+  /** The other person in the tap in. */
+  other_id: UserId
+  other_nickname: string
+  storage_path: string
+  /** Tap in day, America/New_York, 'YYYY-MM-DD'. */
+  day: string
+  created_at: string
+}
+
+/** A memory with a short-lived signed URL to show it. `url` is null if signing failed (e.g. the file is gone). */
+export interface Memory extends MemoryEntry {
+  url: string | null
+}
+
 /** 'not_found' also covers tap ins I'm not part of. */
 export type RemoveTapInStatus = 'removed' | 'already_removed' | 'not_found'
 
