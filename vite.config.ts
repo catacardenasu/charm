@@ -8,6 +8,8 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      // Manifest icons are precached automatically; this one is only linked from index.html.
+      includeAssets: ['apple-touch-icon.png'],
       manifest: {
         name: 'Charm',
         short_name: 'Charm',
@@ -15,8 +17,15 @@ export default defineConfig({
         scope: '/',
         display: 'standalone',
         orientation: 'portrait',
-        // TODO: replace with PNG icons (192, 512, apple-touch 180) from Natalia's art.
-        icons: [{ src: '/favicon.svg', sizes: 'any', type: 'image/svg+xml' }],
+        // The app background (--color-bg): the splash screen and status bar color.
+        background_color: '#3e5c64',
+        theme_color: '#3e5c64',
+        // Generated from public/icon-1024.png by `npm run icons` (scripts/icons.mjs).
+        icons: [
+          { src: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+          { src: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+          { src: '/icon-512-maskable.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+        ],
       },
       workbox: {
         // Serverless functions must always hit the network, never the SPA fallback.

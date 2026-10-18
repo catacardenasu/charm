@@ -3,6 +3,7 @@ import { Navigate, useNavigate, useParams, useSearchParams } from 'react-router-
 import { PlazaScene } from '../components/PlazaScene.tsx'
 import { PlazaSwitcher } from '../components/PlazaSwitcher.tsx'
 import { AppNav } from '../components/AppNav.tsx'
+import { InstallHint } from '../components/InstallHint.tsx'
 import { PointsBalance } from '../components/PointsBalance.tsx'
 import { Card } from '../components/ui/index.ts'
 import { cx } from '../components/ui/cx.ts'
@@ -101,6 +102,7 @@ export default function Plaza() {
               ))}
             </div>
             <PointsBalance className={styles.points} />
+            <InstallHint />
             {slides.length > 1 && (
               <nav className={styles.dots} aria-label="Plazas">
                 {unlocked.map((l) => (
