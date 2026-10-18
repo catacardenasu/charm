@@ -1,0 +1,10 @@
+/* Not in the Figma frame: a quiet text link under "Linking..." */
+.skip {
+  composes: pressable hitArea from '../ui/shared.module.css';
+  margin-top: var(--space-8);
+  color: var(--color-secondary);
+  font-family: var(--font-body);
+  font-size: var(--font-size-16);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
