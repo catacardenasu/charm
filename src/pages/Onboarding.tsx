@@ -5,14 +5,17 @@ import AboutStep from '../components/onboarding/AboutStep.tsx'
 import AvatarStep from '../components/onboarding/AvatarStep.tsx'
 import GreetingStep from '../components/onboarding/GreetingStep.tsx'
 import InterestsStep from '../components/onboarding/InterestsStep.tsx'
+import LinkStep from '../components/onboarding/LinkStep.tsx'
 import { DEFAULT_AVATAR } from '../data/profileOptions.ts'
 import { useMyProfile } from '../hooks/useMyProfile.ts'
 import { useSaveProfile, type ProfileFields } from '../hooks/useSaveProfile.ts'
+import { clearLinking } from '../lib/linking.ts'
 import { onboardingPath, safeReturnTo } from '../lib/returnTo.ts'
 
-type Step = 'about' | 'interests' | 'avatar' | 'greeting'
+type Step = 'about' | 'interests' | 'avatar' | 'greeting' | 'link'
 
-// /onboarding?returnTo=/k/x7f3q9 → about you, interests, avatar, greeting, then back to returnTo.
+// /onboarding?returnTo=/k/x7f3q9 → about you, interests, avatar, greeting (saves), link your charm,
+// then back to returnTo (or /plaza).
 export default function Onboarding() {
   const [params] = useSearchParams()
   const returnTo = safeReturnTo(params.get('returnTo'))
@@ -47,7 +50,13 @@ export default function Onboarding() {
   }, [step])
 
   if (authLoading || !isAuthenticated || profileLoading) return <p>Loading…</p>
-  if (profile) return <Navigate to={returnTo} replace /> // already onboarded
+  // Already onboarded. (Saving on the greeting step doesn't refetch `profile`, so the Link step stays up.)
+  if (profile) return <Navigate to={returnTo} replace />
+
+  const leave = () => {
+    clearLinking()
+    navigate(returnTo === '/' ? '/plaza' : returnTo, { replace: true })
+  }
 
   const finish = async () => {
     setError(null)
@@ -58,7 +67,7 @@ export default function Onboarding() {
         major: draft.major?.trim() || null,
         greeting: draft.greeting?.trim() || null,
       })
-      navigate(returnTo, { replace: true })
+      setStep('link')
     } catch (e) {
       // PostgrestError has message + code; a plain Error only has message.
       const { message, code } = e as { message?: string; code?: string }
@@ -100,5 +109,7 @@ export default function Onboarding() {
           error={error}
         />
       )
+    case 'link':
+      return <LinkStep onBack={() => setStep('greeting')} onDone={leave} />
   }
 }

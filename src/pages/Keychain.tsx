@@ -1,6 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-react'
 import { useEffect, useRef, useState } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
+import CharmLinkedScreen from '../components/keychain/CharmLinkedScreen.tsx'
 import ClaimScreen from '../components/keychain/ClaimScreen.tsx'
 import DeactivatedScreen from '../components/keychain/DeactivatedScreen.tsx'
 import KeychainNotFoundScreen from '../components/keychain/KeychainNotFoundScreen.tsx'
@@ -12,6 +13,7 @@ import { useClaimKeychain } from '../hooks/useClaimKeychain.ts'
 import { useKeychain } from '../hooks/useKeychain.ts'
 import { useMyProfile } from '../hooks/useMyProfile.ts'
 import { useTapIn } from '../hooks/useTapIn.ts'
+import { clearLinking, isLinkingRecent } from '../lib/linking.ts'
 import { onboardingPath } from '../lib/returnTo.ts'
 import type { ClaimKeychainStatus } from '../types.ts'
 
@@ -21,6 +23,8 @@ export default function Keychain() {
   const { isAuthenticated, isLoading: authLoading, loginWithRedirect } = useAuth0()
   const keychain = useKeychain(code)
   const returnTo = `/k/${code}`
+  // Read once: the auto-claim clears the flag, and this screen shouldn't flip back to Claim.
+  const [linking] = useState(isLinkingRecent)
 
   // 1. Not logged in: go to login, unless there's an owner to show a teaser for first.
   const logIn = () => loginWithRedirect({ appState: { returnTo } })
@@ -50,18 +54,18 @@ export default function Keychain() {
     return keychain.owner ? <Teaser owner={keychain.owner} onLogIn={logIn} /> : <p>Taking you to log in…</p>
   }
 
+  // Dead ends first, so a bad or deactivated code doesn't send anyone through onboarding.
+  if (keychain.status === 'not_found') return <KeychainNotFoundScreen />
+  if (keychain.status === 'inactive') return <DeactivatedScreen /> // 5.
+
   // 2. Logged in with no profile: onboarding, then back here.
   if (!keychain.hasProfile) return <Navigate to={onboardingPath(returnTo)} replace />
 
   switch (keychain.status) {
-    case 'unclaimed': // 3.
-      return <ClaimFlow code={code} onClaimed={keychain.refresh} />
+    case 'unclaimed': // 3. Straight from onboarding's Link step: claim without asking.
+      return linking ? <AutoClaimFlow code={code} /> : <ClaimFlow code={code} onClaimed={keychain.refresh} />
     case 'mine': // 4.
       return <OwnKeychainScreen />
-    case 'inactive': // 5.
-      return <DeactivatedScreen />
-    case 'not_found':
-      return <KeychainNotFoundScreen />
     default: // 6. 'owned' by someone else
       return <TapInFlow code={code} />
   }
@@ -91,6 +95,29 @@ function ClaimFlow({ code, onClaimed }: { code: string; onClaimed: () => void })
   }
 
   return <ClaimScreen onClaim={claim} claiming={claiming} message={message} />
+}
+
+/** Onboarding's Link step is waiting in another tab: claim right away, then send them back to it. */
+function AutoClaimFlow({ code }: { code: string }) {
+  const { claimKeychain } = useClaimKeychain()
+  const [status, setStatus] = useState<ClaimKeychainStatus | 'error' | null>(null)
+  const started = useRef(false)
+
+  useEffect(() => {
+    if (started.current) return // StrictMode runs effects twice in dev
+    started.current = true
+    claimKeychain(code)
+      .then(setStatus, () => setStatus('error'))
+      .finally(clearLinking)
+  }, [claimKeychain, code])
+
+  if (status === null) return <p>Linking your charm…</p>
+  if (status === 'claimed' || status === 'mine') return <CharmLinkedScreen />
+  return (
+    <p role="alert">
+      {(status !== 'error' && CLAIM_MESSAGES[status]) || 'Something went wrong linking this charm. Tap it again.'}
+    </p>
+  )
 }
 
 function TapInFlow({ code }: { code: string }) {

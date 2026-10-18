@@ -3,7 +3,7 @@ import { Button, ProgressSteps } from '../ui/index.ts'
 import { cx } from '../ui/cx.ts'
 import styles from './OnboardingLayout.module.css'
 
-export const ONBOARDING_STEPS = 4
+export const ONBOARDING_STEPS = 5
 
 interface Props {
   /** 1-based, for the progress bar. */
