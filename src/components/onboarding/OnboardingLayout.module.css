@@ -1,0 +1,63 @@
+/*
+ * Onboarding frames (About you 10:104, Interests 18:201, Build your Charmling 10:274, Say hi 26:138), 402 wide.
+ * #root already pads the iOS safe areas; the progress bar sits 11px below the status bar.
+ */
+.screen {
+  --gutter: 13px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 11px var(--gutter) var(--space-12);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  margin-top: 11px;
+  font-size: var(--font-size-64);
+  line-height: 1;
+  color: var(--color-text);
+}
+
+.subtitle {
+  margin-top: var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--font-size-20);
+  color: var(--color-text);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--space-8);
+}
+
+.footer {
+  margin-top: auto;
+  padding-top: var(--space-24);
+}
+
+.buttons {
+  display: flex;
+  gap: var(--space-8);
+}
+
+.note {
+  margin-bottom: 19px;
+  font-family: var(--font-body);
+  font-size: var(--font-size-20);
+  text-align: center;
+  color: var(--color-text);
+}
+
+/* Interests: a 137px dark panel stuck to the bottom of the viewport, edge to edge. */
+.pinned {
+  position: sticky;
+  bottom: 0;
+  margin: var(--space-24) calc(var(--gutter) * -1) calc((var(--space-12) + var(--safe-bottom)) * -1);
+  padding: 9px var(--space-10) max(32px, var(--safe-bottom));
+  background: var(--color-bg-dark);
+}

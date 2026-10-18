@@ -1,0 +1,194 @@
+/*
+ * Tap in screen, from Figma "Meeting Somone" (33:781) and "Seeing you" (39:1347), 402x874.
+ * Vertical gaps are the ones in each frame, so they differ slightly between variants.
+ */
+.screen {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 var(--space-12) var(--space-14);
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* Title arc + avatars. Height runs from the status bar to the caption. */
+.hero {
+  position: relative;
+  width: 100%;
+  max-width: var(--app-max-width);
+  margin: 0 calc(var(--space-12) * -1);
+}
+
+.first .hero {
+  height: 376px;
+}
+
+.again .hero {
+  height: 348px;
+}
+
+.title {
+  position: absolute;
+  inset: 0;
+}
+
+.arc {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  font-family: var(--font-display);
+  font-size: var(--font-size-64);
+  letter-spacing: 5px;
+  fill: var(--color-secondary);
+}
+
+.pair {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-48);
+}
+
+.hero .pair {
+  position: absolute;
+  right: 0;
+  left: 0;
+}
+
+.first .hero .pair {
+  top: 118px;
+}
+
+.again .hero .pair {
+  top: 101px;
+}
+
+.caption {
+  font-family: var(--font-body);
+  font-size: var(--font-size-20);
+  text-align: center;
+  color: var(--color-text);
+}
+
+.streak {
+  margin-top: var(--space-6);
+}
+
+.interests {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-10);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.first .interests {
+  margin-top: 19px;
+}
+
+.again .interests {
+  margin-top: 22px;
+}
+
+.rewards {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-16);
+}
+
+.first .rewards {
+  margin-top: 18px;
+}
+
+.again .rewards {
+  margin-top: 11px;
+}
+
+.unlock {
+  margin-top: var(--space-10);
+}
+
+.prompt {
+  width: 100%;
+  max-width: 375px;
+  min-height: 96px;
+  padding: 5px var(--space-8) var(--space-8) 7px;
+}
+
+.first .prompt {
+  margin-top: var(--space-10);
+}
+
+.again .prompt {
+  margin-top: 19px;
+}
+
+.already .prompt {
+  margin-top: var(--space-24);
+}
+
+.promptLabel,
+.promptText {
+  font-family: var(--font-body);
+  font-size: var(--font-size-20);
+}
+
+.promptLabel {
+  color: var(--color-text-muted);
+}
+
+.promptText {
+  margin-top: 0;
+  color: var(--color-text-dark);
+}
+
+.memory {
+  margin-top: 15px;
+}
+
+.camera {
+  width: 30px;
+  height: 24px;
+  image-rendering: pixelated;
+}
+
+.footer {
+  display: flex;
+  gap: var(--space-8);
+  width: 100%;
+  margin-top: auto;
+  padding-top: var(--space-24);
+}
+
+.footerButton {
+  flex: 1;
+  min-width: 0;
+  text-decoration: none;
+}
+
+/* "Already tapped in today": no arc, just a heading over the pair. */
+.simpleHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-24);
+  padding-top: var(--space-24);
+}
+
+.simpleTitle {
+  font-size: var(--font-size-48);
+  text-align: center;
+  color: var(--color-text);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

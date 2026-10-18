@@ -1,17 +1,18 @@
 import { useAuth0 } from '@auth0/auth0-react'
 import { useEffect, useRef, useState } from 'react'
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom'
+import AboutStep from '../components/onboarding/AboutStep.tsx'
 import AvatarStep from '../components/onboarding/AvatarStep.tsx'
 import GreetingStep from '../components/onboarding/GreetingStep.tsx'
-import SignUpStep from '../components/onboarding/SignUpStep.tsx'
+import InterestsStep from '../components/onboarding/InterestsStep.tsx'
 import { DEFAULT_AVATAR } from '../data/profileOptions.ts'
 import { useMyProfile } from '../hooks/useMyProfile.ts'
 import { useSaveProfile, type ProfileFields } from '../hooks/useSaveProfile.ts'
 import { onboardingPath, safeReturnTo } from '../lib/returnTo.ts'
 
-type Step = 'signup' | 'avatar' | 'greeting'
+type Step = 'about' | 'interests' | 'avatar' | 'greeting'
 
-// /onboarding?returnTo=/k/x7f3q9 → sign up, avatar, greeting, then back to returnTo.
+// /onboarding?returnTo=/k/x7f3q9 → about you, interests, avatar, greeting, then back to returnTo.
 export default function Onboarding() {
   const [params] = useSearchParams()
   const returnTo = safeReturnTo(params.get('returnTo'))
@@ -20,7 +21,7 @@ export default function Onboarding() {
   const { profile, loading: profileLoading } = useMyProfile()
   const { saveProfile, saving } = useSaveProfile()
 
-  const [step, setStep] = useState<Step>('signup')
+  const [step, setStep] = useState<Step>('about')
   const [error, setError] = useState<string | null>(null)
   const [draft, setDraft] = useState<ProfileFields>({
     nickname: '',
@@ -39,6 +40,11 @@ export default function Onboarding() {
       loginWithRedirect({ appState: { returnTo: onboardingPath(returnTo) } })
     }
   }, [authLoading, isAuthenticated, loginWithRedirect, returnTo])
+
+  // Each step starts at the top (Interests is a long scroll).
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [step])
 
   if (authLoading || !isAuthenticated || profileLoading) return <p>Loading…</p>
   if (profile) return <Navigate to={returnTo} replace /> // already onboarded
@@ -59,14 +65,23 @@ export default function Onboarding() {
   }
 
   switch (step) {
-    case 'signup':
-      return <SignUpStep draft={draft} onChange={update} onNext={() => setStep('avatar')} />
+    case 'about':
+      return <AboutStep draft={draft} onChange={update} onNext={() => setStep('interests')} />
+    case 'interests':
+      return (
+        <InterestsStep
+          interests={draft.interests}
+          onChange={(interests) => update({ interests })}
+          onBack={() => setStep('about')}
+          onNext={() => setStep('avatar')}
+        />
+      )
     case 'avatar':
       return (
         <AvatarStep
           avatar={draft.avatar}
           onChange={(avatar) => update({ avatar })}
-          onBack={() => setStep('signup')}
+          onBack={() => setStep('interests')}
           onNext={() => setStep('greeting')}
         />
       )
@@ -74,6 +89,7 @@ export default function Onboarding() {
       return (
         <GreetingStep
           greeting={draft.greeting ?? ''}
+          avatar={draft.avatar}
           onChange={(greeting) => update({ greeting })}
           onBack={() => setStep('avatar')}
           onFinish={finish}
