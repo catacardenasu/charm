@@ -1,5 +1,6 @@
 import type { Avatar } from '../../types.ts'
 import { AvatarCreator } from '../AvatarCreator.tsx'
+import OnboardingLayout from './OnboardingLayout.tsx'
 
 interface Props {
   avatar: Avatar
@@ -8,20 +9,17 @@ interface Props {
   onNext: () => void
 }
 
-/** Step 2: avatar. */
+/** Step 3, Figma "Build your Charmling" (10:274). */
 export default function AvatarStep({ avatar, onChange, onBack, onNext }: Props) {
   return (
-    <section>
-      <h1>Build your Charmling</h1>
-
+    <OnboardingLayout
+      step={3}
+      title="Build your Charmling"
+      subtitle="A little character with a lot of charm. This is how you’ll appear to everyone you meet!"
+      onBack={onBack}
+      onNext={onNext}
+    >
       <AvatarCreator value={avatar} onChange={onChange} />
-
-      <button type="button" onClick={onBack}>
-        Back
-      </button>
-      <button type="button" onClick={onNext}>
-        Next
-      </button>
-    </section>
+    </OnboardingLayout>
   )
 }

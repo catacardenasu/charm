@@ -1,0 +1,138 @@
+/* Content of each onboarding step. Gaps are the ones in the Figma frames. */
+
+.label {
+  font-family: var(--font-body);
+  font-size: var(--font-size-20);
+  color: var(--color-text);
+}
+
+/* About you (10:104) */
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.years {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-6);
+}
+
+.year {
+  composes: pressable from '../ui/shared.module.css';
+  height: 68px;
+  border-radius: var(--radius-16);
+  background: transparent;
+  box-shadow: inset 0 0 0 var(--border-width) var(--color-secondary);
+  color: var(--color-secondary);
+  font-family: var(--font-body);
+  font-size: var(--font-size-22);
+  text-align: center;
+}
+
+.selected {
+  background: var(--color-primary);
+  box-shadow: none;
+  color: var(--color-text-dark);
+}
+
+/* Interests (18:201) */
+.picked {
+  display: flex;
+  gap: var(--space-12);
+  margin: var(--space-4) calc(var(--gutter) * -1) 0 0;
+  padding-right: var(--gutter);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.picked::-webkit-scrollbar {
+  display: none;
+}
+
+.category {
+  margin-top: 18px;
+}
+
+.categoryName {
+  font-family: var(--font-body);
+  font-size: var(--font-size-20);
+  color: var(--color-primary);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-8) var(--space-12);
+  margin-top: var(--space-8);
+}
+
+/* Say hi (26:138) */
+.greetingPreview {
+  display: flex;
+  align-items: flex-start;
+  margin: 32px 0 0 var(--space-10);
+}
+
+.bubble {
+  margin: 7px 0 0 -3px;
+}
+
+.greetingField {
+  margin-top: 0;
+}
+
+.suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  margin: 11px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.greetingField + .label {
+  margin-top: var(--space-20);
+}
+
+.suggestion {
+  composes: pressable from '../ui/shared.module.css';
+  width: 100%;
+  height: var(--control-height);
+  padding: 0 var(--space-10);
+  border-radius: var(--radius-8);
+  background: var(--color-secondary);
+  color: var(--color-text-dark);
+  font-family: var(--font-display);
+  font-size: var(--font-size-24);
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.randomize {
+  composes: pressable hitArea from '../ui/shared.module.css';
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  align-self: flex-end;
+  margin-top: 13px;
+  color: var(--color-primary);
+  font-family: var(--font-body);
+  font-size: var(--font-size-20);
+}
+
+.dice {
+  width: 22px;
+  height: 22px;
+  image-rendering: pixelated;
+}
+
+.error {
+  margin-top: var(--space-8);
+  font-family: var(--font-body);
+  font-size: var(--font-size-16);
+  color: var(--color-primary);
+}
