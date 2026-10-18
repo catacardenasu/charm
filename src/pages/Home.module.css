@@ -1,0 +1,152 @@
+/*
+ * Figma "Log In Screen" (1:61), 402 wide. The logo block scales with the screen width
+ * (--u is one Figma pixel); the form, divider and buttons keep their Figma sizes.
+ */
+.screen {
+  container-type: inline-size;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding-bottom: var(--space-24);
+}
+
+.loading {
+  margin: auto;
+  color: var(--color-text);
+}
+
+/* Wordmark, sparkle, keychain and tagline: Figma y 44 to 322. Shifted up so its top lines up with the status bar's. */
+.logo {
+  --u: calc(100cqw / 402);
+  position: relative;
+  width: 100%;
+  height: calc(278 * var(--u));
+  margin-top: calc(-13 * var(--u));
+  color: var(--color-secondary);
+  font-family: var(--font-display);
+}
+
+.wordmark,
+.tagline {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  font-weight: var(--font-weight-regular);
+}
+
+.wordmark {
+  font-size: calc(64 * var(--u));
+}
+
+.tagline {
+  font-size: calc(24 * var(--u));
+}
+
+.sparkle {
+  position: absolute;
+  top: calc(49 * var(--u));
+  left: calc(293 * var(--u));
+  width: calc(31 * var(--u));
+  height: auto;
+  transform: rotate(15.52deg);
+  image-rendering: pixelated;
+}
+
+.keychain {
+  position: absolute;
+  top: calc(61 * var(--u));
+  left: calc(114 * var(--u));
+  width: calc(188 * var(--u));
+  height: calc(200 * var(--u));
+  image-rendering: pixelated;
+}
+
+.character {
+  position: absolute;
+  top: calc(167 * var(--u));
+  left: calc(183 * var(--u));
+  width: calc(52 * var(--u));
+  height: calc(64 * var(--u));
+  image-rendering: pixelated;
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-16);
+  width: 301px;
+  max-width: calc(100% - 2 * var(--space-14));
+  margin-top: var(--space-16);
+}
+
+.field {
+  width: 100%;
+}
+
+/* Figma: 228x47 with a 32px label (Button lg is 53 tall). */
+.logInButton.logInButton {
+  width: 228px;
+  max-width: 100%;
+  height: 47px;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+  width: 100%;
+  margin-top: 22px;
+  color: var(--color-secondary);
+  font-family: var(--font-display);
+  font-size: var(--font-size-16);
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-secondary);
+}
+
+.social {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 263px;
+  max-width: calc(100% - 2 * var(--space-14));
+  margin-top: 19px;
+}
+
+/* Facebook / Apple: the social button's look, without being interactive. */
+.decorative {
+  composes: button social from '../components/ui/Button.module.css';
+  width: 100%;
+  cursor: default;
+  pointer-events: none;
+}
+
+.error {
+  font-family: var(--font-body);
+  font-size: var(--font-size-14);
+  color: var(--color-primary);
+  text-align: center;
+}
+
+.terms {
+  width: 334px;
+  max-width: calc(100% - 2 * var(--space-14));
+  margin-top: auto;
+  padding-top: 33px;
+  font-family: var(--font-ui);
+  font-size: var(--font-size-14);
+  text-align: center;
+  color: var(--color-secondary);
+}
+
+.underline {
+  text-decoration: underline;
+}
