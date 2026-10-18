@@ -8,7 +8,7 @@ export default function OwnKeychainScreen() {
   return (
     <StepFrame
       title="This is your keychain"
-      intro="Tap it on a friend's phone to tap in with them."
+      intro="Tap it on a friend's phone to Charm them."
       wideFooter
       footer={
         <Link to="/plaza" className={styles.primary}>

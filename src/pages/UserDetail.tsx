@@ -1,6 +1,8 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Avatar } from '../components/Avatar.tsx'
+import { MemoryGallery } from '../components/memories/MemoryGallery.tsx'
 import { Card, InterestTag, SpeechBubble, StreakFlame } from '../components/ui/index.ts'
+import { useMemories } from '../hooks/useMemories.ts'
 import { usePerson } from '../hooks/usePerson.ts'
 import styles from './UserDetail.module.css'
 
@@ -14,6 +16,8 @@ function formatDay(day: string) {
 export default function UserDetail() {
   const { userId } = useParams()
   const { person, loading, error } = usePerson(userId)
+  // Only the memories from tap ins between me and this person (my_memories filters by both user ids, whoever took the photo).
+  const together = useMemories(userId)
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -35,7 +39,7 @@ export default function UserDetail() {
       <main className={styles.screen}>
         {header('')}
         <p role={error ? 'alert' : undefined} className={styles.message}>
-          {error ? `Couldn’t load this Charmling. ${error}` : 'You haven’t tapped in with this Charmling yet.'}
+          {error ? `Couldn’t load this Charmling. ${error}` : 'You haven’t Charm’d this Charmling yet.'}
         </p>
       </main>
     )
@@ -49,7 +53,7 @@ export default function UserDetail() {
   )
   const since = [
     first_met && `Charmed since ${formatDay(first_met)}.`,
-    last_day && first_met !== last_day && `Last tapped in on ${formatDay(last_day)}.`,
+    last_day && first_met !== last_day && `Last Charm’d on ${formatDay(last_day)}.`,
   ].filter(Boolean)
 
   return (
@@ -93,8 +97,14 @@ export default function UserDetail() {
 
       <section className={styles.section}>
         <h2 className={styles.label}>Memories Together:</h2>
-        {/* Memory photos come later (build order step 6). */}
-        <p className={styles.empty}>Photos from your tap ins will show up here.</p>
+        <MemoryGallery
+          memories={together.memories}
+          loading={together.loading}
+          error={together.error}
+          onRetry={together.refresh}
+          onDelete={together.removeMemory}
+          emptyHint={`Snap a photo when you Charm ${profile.nickname} and it will live here!`}
+        />
       </section>
     </main>
   )

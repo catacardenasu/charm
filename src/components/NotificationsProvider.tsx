@@ -27,7 +27,7 @@ export default function NotificationsProvider({ children }: { children: ReactNod
     const onInsert = (notification: AppNotification) => {
       if (notification.type !== 'tap_in') return
       const { from_nickname } = notification.payload as Partial<TapInNotificationPayload>
-      setToasts((ts) => [...ts, { id: notification.id, text: `${from_nickname ?? 'Someone'} tapped in with you!` }])
+      setToasts((ts) => [...ts, { id: notification.id, text: `${from_nickname ?? 'Someone'} Charm’d you!` }])
       setPlazaVersion((v) => v + 1)
     }
 
