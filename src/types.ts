@@ -214,6 +214,33 @@ export interface BuyCosmeticResult {
 
 export type EquipCosmeticStatus = 'equipped' | 'not_owned' | 'not_found'
 
+/** One row of rpc('my_recent_tap_ins') (supabase/sql/008_review.sql): a tap in from the last 7 days. */
+export interface RecentTapIn {
+  id: string
+  /** The other person in the tap in. */
+  other_id: UserId
+  nickname: string
+  avatar: Avatar
+  scanner_id: UserId
+  /** True if I tapped their keychain, false if they tapped mine. */
+  scanned_by_me: boolean
+  /** America/New_York date, 'YYYY-MM-DD'. */
+  day: string
+  /** Points it gave each of us (taken back if removed). */
+  points_awarded: number
+  created_at: string
+}
+
+/** 'not_found' also covers tap ins I'm not part of. */
+export type RemoveTapInStatus = 'removed' | 'already_removed' | 'not_found'
+
+/** What rpc('remove_tap_in', { p_tap_in_id }) returns. */
+export interface RemoveTapInResult {
+  status: RemoveTapInStatus
+  /** My points afterwards. Missing when status is 'not_found'. */
+  points?: number
+}
+
 /** What rpc('equip_cosmetic', { p_cosmetic_id }) returns. */
 export interface EquipCosmeticResult {
   status: EquipCosmeticStatus
