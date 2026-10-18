@@ -37,7 +37,10 @@ export interface Profile {
   interests: string[]
   greeting: string | null
   avatar: Avatar
+  /** Ranks you on the leaderboard. */
   points: number
+  /** Spent in the shop (011_coins.sql). */
+  coins: number
   created_at: string
 }
 
@@ -107,7 +110,7 @@ export interface Cosmetic {
 
 export type TapInStatus = 'ok' | 'already_today'
 
-/** What rpc('tap_in', { code }) returns. On 'already_today', points_earned is 0 and nothing unlocks. */
+/** What rpc('tap_in', { code }) returns. On 'already_today', points_earned and coins_earned are 0 and nothing unlocks. */
 export interface TapInResult {
   status: TapInStatus
   /** Today's tap in for this pair; sent to /api/prompt. */
@@ -116,6 +119,7 @@ export interface TapInResult {
   shared_interests: string[]
   streak_weeks: number
   points_earned: number
+  coins_earned: number
   newly_unlocked: Location[]
 }
 
@@ -203,13 +207,13 @@ export interface ShopCosmetic extends Cosmetic {
 }
 
 /** 'already_owned' also covers free items. */
-export type BuyCosmeticStatus = 'bought' | 'already_owned' | 'not_enough_points' | 'not_found'
+export type BuyCosmeticStatus = 'bought' | 'already_owned' | 'not_enough_coins' | 'not_found'
 
 /** What rpc('buy_cosmetic', { p_cosmetic_id }) returns. */
 export interface BuyCosmeticResult {
   status: BuyCosmeticStatus
-  /** My points after the purchase (unchanged unless bought). */
-  points: number
+  /** My coins after the purchase (unchanged unless bought). */
+  coins: number
 }
 
 export type EquipCosmeticStatus = 'equipped' | 'not_owned' | 'not_found'

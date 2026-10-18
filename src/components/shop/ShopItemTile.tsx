@@ -7,13 +7,13 @@ import { useSpriteThumb } from './useSpriteThumb.ts'
 interface Props {
   item: ShopItem
   owned: boolean
-  /** Not enough points. The tile still opens in the preview, so you can try the item on. */
+  /** Not enough coins. The tile still opens in the preview, so you can try the item on. */
   tooExpensive: boolean
   trying: boolean
   onSelect: () => void
 }
 
-/** One shop grid cell: owned, can afford, or not enough points. */
+/** One shop grid cell: owned, can afford, or not enough coins. */
 export function ShopItemTile({ item, owned, tooExpensive, trying, onSelect }: Props) {
   const imageSrc = useSpriteThumb(spriteSrc(item))
   return (

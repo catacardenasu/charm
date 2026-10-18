@@ -25,6 +25,13 @@
   font-size: calc(100cqw * 64 / 402);
 }
 
+/* "Charm'd to meet/see you!" sit too far left; nudge them right. A margin, not a transform,
+   so the box shrinks instead of hanging past the screen (no sideways scroll). Not on
+   "Already charm'd today!": that arc is wider than a 390px screen and would spill off the right. */
+.shifted {
+  margin-left: 20px;
+}
+
 .avatar {
   position: absolute;
   bottom: calc(100cqw * 96 / 402);
@@ -52,7 +59,7 @@
     twinkle 1.6s steps(1, end) 1.1s infinite;
 }
 
-/* "+50 points" floats up from the sparkle and fades. */
+/* "+20 pts · +10 coins" floats up from the sparkle and fades. */
 .points {
   position: absolute;
   top: calc(100cqw * 120 / 402);

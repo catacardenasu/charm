@@ -46,7 +46,7 @@ export default function Closet() {
   const { profile, loading } = useMyProfile()
   const { saveProfile, error: saveError } = useSaveProfile()
   // Real shop data: Katie's my_cosmetics (007_shop.sql), adapted to the shape this page uses.
-  const { items, ownedIds, points } = useShopState()
+  const { items, ownedIds, points: coins } = useShopState()
   const navigate = useNavigate()
 
   const [category, setCategory] = useState<Category>('hats')
@@ -89,7 +89,7 @@ export default function Closet() {
     <main className={styles.screen}>
       <header className={styles.header}>
         <h1 className={styles.title}>Closet</h1>
-        <CoinBalance amount={points} className={styles.balance} />
+        <CoinBalance amount={coins} className={styles.balance} />
       </header>
 
       <SegmentedTabs

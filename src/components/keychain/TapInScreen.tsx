@@ -15,16 +15,23 @@ interface Props {
   promptStatus: PromptStatus
 }
 
-// CLAUDE.md game rules: a first meeting earns 50 points and starts a 1-week streak.
-// A later tap in with weeks = 1 earns 10, so this pair only happens on a first meeting.
-const FIRST_MEETING_POINTS = 50
+// 011_coins.sql: a first meeting earns 20 points (every later tap in earns 10),
+// so this amount only happens on a first meeting.
+const FIRST_MEETING_POINTS = 20
 
-/** The tap in result: both avatars, shared interests, prompt, streak, points and unlocks. */
+/** The tap in result: both avatars, shared interests, prompt, streak, points, coins and unlocks. */
 export default function TapInScreen({ me, result, prompt, promptStatus }: Props) {
-  const { other, shared_interests, streak_weeks, points_earned, newly_unlocked, status } = result
+  const { other, shared_interests, streak_weeks, points_earned, coins_earned, newly_unlocked, status } = result
   const alreadyToday = status === 'already_today'
   const firstMeeting = !alreadyToday && streak_weeks === 1 && points_earned === FIRST_MEETING_POINTS
   const myName = me?.nickname ?? 'You'
+  // "+20 pts · +10 coins": points rank you on the leaderboard, coins are spent in the shop.
+  const earnings = [
+    points_earned > 0 && `+${points_earned} pts`,
+    coins_earned > 0 && `+${coins_earned} ${coins_earned === 1 ? 'coin' : 'coins'}`,
+  ]
+    .filter(Boolean)
+    .join(' · ')
 
   const title = alreadyToday ? "Already charm'd today!" : firstMeeting ? "Charm'd to meet you!" : "Charm'd to see you!"
   const [line1, line2] = alreadyToday
@@ -36,7 +43,7 @@ export default function TapInScreen({ me, result, prompt, promptStatus }: Props)
   return (
     <section className={styles.screen}>
       <div className={styles.hero}>
-        <h1 className={styles.title} aria-label={title}>
+        <h1 className={cx(styles.title, !alreadyToday && styles.shifted)} aria-label={title}>
           <ArcText letters={alreadyToday ? ALREADY_UPPER : MEET_UPPER} animate />
           <ArcText letters={alreadyToday ? ALREADY_LOWER : firstMeeting ? MEET_LOWER : SEE_LOWER} animate />
         </h1>
@@ -52,7 +59,7 @@ export default function TapInScreen({ me, result, prompt, promptStatus }: Props)
         <img className={styles.sparkle} src="/sprites/charm/sparkle.png" alt="" />
         {!alreadyToday && points_earned > 0 && (
           <p className={styles.points} aria-hidden="true">
-            +{points_earned} points
+            {earnings}
           </p>
         )}
       </div>
@@ -86,7 +93,7 @@ export default function TapInScreen({ me, result, prompt, promptStatus }: Props)
           <div className={styles.rewards}>
             {points_earned > 0 && (
               <Badge variant="reward" className={styles.reward}>
-                +{points_earned} {points_earned === 1 ? 'Point' : 'Points'}
+                {earnings}
               </Badge>
             )}
             {newly_unlocked.map((location) => (

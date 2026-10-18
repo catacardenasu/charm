@@ -12,6 +12,7 @@ export const mockProfiles: Profile[] = [
     greeting: 'Ask me about my sketchbook!',
     avatar: { skin: 'tan', hairStyle: 6, hairColor: 'black', outfit: 'basic-05', hat: 'beanie', accessory: 'round-glasses' },
     points: 340,
+    coins: 170,
     created_at: '2026-09-02T14:12:00Z',
   },
   {
@@ -23,6 +24,7 @@ export const mockProfiles: Profile[] = [
     greeting: 'Always down for a Lake Alice walk.',
     avatar: { skin: 'dark', hairStyle: 8, hairColor: 'brown', outfit: 'basic-12', hat: null, accessory: null },
     points: 120,
+    coins: 60,
     created_at: '2026-09-05T18:40:00Z',
   },
   {
@@ -34,6 +36,7 @@ export const mockProfiles: Profile[] = [
     greeting: 'Currently debugging my life.',
     avatar: { skin: 'pale', hairStyle: 3, hairColor: 'red', outfit: 'basic-01', hat: null, accessory: 'heart-glasses' },
     points: 510,
+    coins: 255,
     created_at: '2026-08-28T09:05:00Z',
   },
   {
@@ -45,6 +48,7 @@ export const mockProfiles: Profile[] = [
     greeting: 'Go Gators! 🐊',
     avatar: { skin: 'dark', hairStyle: 1, hairColor: 'black', outfit: 'basic-18', hat: 'blue-cap', accessory: null },
     points: 60,
+    coins: 30,
     created_at: '2026-10-01T21:30:00Z',
   },
   {
@@ -56,6 +60,7 @@ export const mockProfiles: Profile[] = [
     greeting: 'Looking for people to jam with.',
     avatar: { skin: 'pale', hairStyle: 7, hairColor: 'blonde', outfit: 'special-flannel', hat: null, accessory: null },
     points: 225,
+    coins: 112,
     created_at: '2026-09-12T16:00:00Z',
   },
   {
@@ -67,6 +72,7 @@ export const mockProfiles: Profile[] = [
     greeting: 'Ask me what I am building this week.',
     avatar: { skin: 'tan', hairStyle: 12, hairColor: 'purple', outfit: 'special-lab-coat', hat: null, accessory: 'freckles' },
     points: 180,
+    coins: 90,
     created_at: '2026-09-20T12:45:00Z',
   },
 ]
@@ -163,6 +169,7 @@ export const mockTapInResult: TapInResult = {
   other: mockProfiles[1],
   shared_interests: ['coffee'],
   streak_weeks: 2,
-  points_earned: 15,
+  points_earned: 10,
+  coins_earned: 5,
   newly_unlocked: [mockLocations.find((l) => l.id === 'century-tower')!],
 }
