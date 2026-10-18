@@ -1,0 +1,108 @@
+/* Figma "Shop" (34:955), 402 wide, with the grids from 95:541 to 95:543. The bottom nav comes from NavLayout. */
+.screen {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: var(--space-14) 13px var(--space-14);
+  color: var(--color-secondary);
+  font-family: var(--font-body);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: var(--font-size-64);
+  line-height: 1;
+}
+
+.balance {
+  margin-top: var(--space-6);
+}
+
+.sections {
+  margin-top: var(--space-6);
+}
+
+/* Trying on (192) and item info (177), 191 tall. */
+.preview {
+  display: grid;
+  grid-template-columns: 192fr 177fr;
+  gap: var(--space-6);
+  margin-top: var(--space-10);
+}
+
+.panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 191px;
+  padding: var(--space-14);
+  border-radius: var(--radius-8);
+  background: var(--color-panel);
+  color: var(--color-text-dark);
+}
+
+.label {
+  position: absolute;
+  top: var(--space-4);
+  left: var(--space-4);
+}
+
+/* The info panel is text, so it reads from the top left under the tag. */
+.panel:last-child {
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding-top: 52px;
+}
+
+.itemName {
+  margin: 0;
+  font-size: var(--font-size-26);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.1;
+}
+
+.itemText {
+  margin-top: var(--space-8);
+  font-size: var(--font-size-16);
+}
+
+.categories {
+  margin-top: var(--space-10);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-12);
+  margin: var(--space-10) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Stays in view above the bottom nav (about 90px tall plus the home indicator). */
+.buyBar {
+  position: sticky;
+  bottom: calc(90px + var(--safe-bottom));
+  z-index: 1;
+  margin-top: auto;
+  padding-top: var(--space-8);
+  background: var(--color-bg);
+}
+
+.confirm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-10);
+}
+
+.afterBuy {
+  font-size: var(--font-size-16);
+}
