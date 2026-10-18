@@ -15,7 +15,7 @@
 
 do $$
 declare
-  target_code constant text := '3q12TxyaYk';  -- ← change this
+  target_code constant text := 'YOUR_KEYCHAIN_CODE';  -- ← change this
   how_many    constant int  := 60;                    -- ← and this (1–60)
 
   target text;
