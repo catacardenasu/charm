@@ -3,7 +3,7 @@ import { useEffect, useState, type ReactNode } from 'react'
 import { Link, Navigate } from 'react-router-dom'
 import { Button, Modal } from '../components/ui/index.ts'
 import { cx } from '../components/ui/cx.ts'
-import { DEACTIVATE_AVAILABLE, useDeactivateKeychain } from '../hooks/useDeactivateKeychain.ts'
+import { useDeactivateKeychain } from '../hooks/useDeactivateKeychain.ts'
 import { useKeychainLinked } from '../hooks/useKeychainLinked.ts'
 import { useMyKeychain } from '../hooks/useMyKeychain.ts'
 import { useMyProfile } from '../hooks/useMyProfile.ts'
@@ -125,7 +125,12 @@ function MyCharm() {
   const lose = async () => {
     setError(null)
     try {
-      await deactivateKeychain(keychain.code)
+      const status = await deactivateKeychain(keychain.code)
+      if (status === 'not_yours') {
+        setError('This charm isn’t linked to you anymore.')
+        return
+      }
+      // 'deactivated' or 'already_inactive': either way it's off, so show the "Got a charm?" card.
       setConfirming(false)
       setLinking(false)
       refresh()
@@ -141,16 +146,8 @@ function MyCharm() {
           {keychain.claimed_at ? `Charm linked since ${formatDay(keychain.claimed_at)}` : 'Charm linked'}
         </span>
       </div>
-      <button
-        type="button"
-        className={styles.row}
-        onClick={() => setConfirming(true)}
-        disabled={!DEACTIVATE_AVAILABLE}
-      >
-        <span className={styles.rowText}>
-          Lost my charm
-          {!DEACTIVATE_AVAILABLE && <span className={styles.detail}>Coming soon</span>}
-        </span>
+      <button type="button" className={styles.row} onClick={() => setConfirming(true)}>
+        <span className={styles.rowText}>Lost my charm</span>
       </button>
 
       <Modal
