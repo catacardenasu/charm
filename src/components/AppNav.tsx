@@ -11,7 +11,7 @@ const ROUTES: Record<NavKey, string> = {
 
 function activeFor(pathname: string): NavKey {
   if (pathname.startsWith('/streaks')) return 'activity'
-  if (pathname.startsWith('/shop')) return 'shop'
+  if (pathname.startsWith('/shop') || pathname.startsWith('/closet')) return 'shop'
   if (pathname.startsWith('/me') || pathname.startsWith('/settings')) return 'profile'
   return 'home'
 }

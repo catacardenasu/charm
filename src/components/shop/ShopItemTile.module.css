@@ -1,0 +1,4 @@
+/* Not enough points: the tile dims but stays tappable, so the item can still be tried on. */
+.tooExpensive {
+  opacity: 0.55;
+}
