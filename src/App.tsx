@@ -11,6 +11,7 @@ import Onboarding from './pages/Onboarding.tsx'
 import Plaza from './pages/Plaza.tsx'
 import Review from './pages/Review.tsx'
 import Settings from './pages/Settings.tsx'
+import SettingsEdit from './pages/SettingsEdit.tsx'
 import Shop from './pages/Shop.tsx'
 import Streaks from './pages/Streaks.tsx'
 import UserDetail from './pages/UserDetail.tsx'
@@ -30,6 +31,7 @@ export default function App() {
         <Route path="/me" element={<Me />} />
         <Route path="/settings" element={<Settings />} />
       </Route>
+      <Route path="/settings/:section" element={<SettingsEdit />} />
       <Route path="/closet" element={<Closet />} />
       <Route path="/review" element={<Review />} />
       <Route path="/dev" element={<ComponentGallery />} />
