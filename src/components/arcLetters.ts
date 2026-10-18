@@ -1,5 +1,6 @@
 // Letters for the curved titles, from the Figma frames ("Meeting Somone", "Seeing you", "Log In Screen").
 // x and y are each letter's center in em (the titles are 64px in a 402px frame); rotate is in degrees.
+// The "already" letters are laid out on the same upper circle (and a wider lower one) with the same math, not read from Figma.
 // Both tap in titles share one "charm'd to" arc. Coordinates are relative to the top of the title block.
 
 export interface ArcLetter {
@@ -43,6 +44,33 @@ export const SEE_LOWER: ArcLetter[] = [
   { char: 'o', x: 3.8672, y: 4.8470, rotate: -9.96 },
   { char: 'u', x: 4.3906, y: 4.7222, rotate: -16.85 },
   { char: '!', x: 4.7783, y: 4.5850, rotate: -22.12 },
+]
+
+export const ALREADY_UPPER: ArcLetter[] = [
+  { char: 'a', x: 1.4569, y: 1.1019, rotate: -29.96 },
+  { char: 'l', x: 1.8898, y: 0.8957, rotate: -20.97 },
+  { char: 'r', x: 2.3497, y: 0.7597, rotate: -11.98 },
+  { char: 'e', x: 2.9050, y: 0.6940, rotate: -1.50 },
+  { char: 'a', x: 3.4630, y: 0.7306, rotate: 8.99 },
+  { char: 'd', x: 4.0051, y: 0.8680, rotate: 19.47 },
+  { char: 'y', x: 4.5131, y: 1.1019, rotate: 29.96 },
+]
+
+export const ALREADY_LOWER: ArcLetter[] = [
+  { char: 'c', x: 0.0691, y: 4.1295, rotate: 35.32 },
+  { char: 'h', x: 0.4943, y: 4.3997, rotate: 29.55 },
+  { char: 'a', x: 0.9445, y: 4.6258, rotate: 23.77 },
+  { char: 'r', x: 1.4152, y: 4.8054, rotate: 18.00 },
+  { char: 'm', x: 1.9280, y: 4.9423, rotate: 11.91 },
+  { char: "’", x: 2.3808, y: 5.0163, rotate: 6.65 },
+  { char: 'd', x: 2.8115, y: 5.0478, rotate: 1.70 },
+  { char: ' ', x: 3.2658, y: 5.0406, rotate: -3.51 },
+  { char: 't', x: 3.6909, y: 4.9963, rotate: -8.41 },
+  { char: 'o', x: 4.1587, y: 4.9042, rotate: -13.87 },
+  { char: 'd', x: 4.6411, y: 4.7589, rotate: -19.65 },
+  { char: 'a', x: 5.1064, y: 4.5658, rotate: -25.42 },
+  { char: 'y', x: 5.5500, y: 4.3269, rotate: -31.20 },
+  { char: '!', x: 5.9094, y: 4.0875, rotate: -36.15 },
 ]
 
 export const WORDMARK: ArcLetter[] = [

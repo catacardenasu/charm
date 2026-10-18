@@ -3,7 +3,7 @@ import type { PromptStatus } from '../../hooks/useTapIn.ts'
 import type { Profile, TapInResult } from '../../types.ts'
 import { Avatar } from '../Avatar.tsx'
 import { ArcText } from '../ArcText.tsx'
-import { MEET_LOWER, MEET_UPPER, SEE_LOWER } from '../arcLetters.ts'
+import { ALREADY_LOWER, ALREADY_UPPER, MEET_LOWER, MEET_UPPER, SEE_LOWER } from '../arcLetters.ts'
 import { Badge, Button, Card, InterestTag, SPRITES } from '../ui/index.ts'
 import { cx } from '../ui/cx.ts'
 import styles from './TapInScreen.module.css'
@@ -15,18 +15,18 @@ interface Props {
   promptStatus: PromptStatus
 }
 
-// A first meeting earns 50 points. Repeat tap ins earn less until the streak is long, and a first meeting
-// is always week 1 of the streak, so this tells them apart. A `first_meeting` flag from tap_in() would be better.
+// CLAUDE.md game rules: a first meeting earns 50 points and starts a 1-week streak.
+// A later tap in with weeks = 1 earns 10, so this pair only happens on a first meeting.
 const FIRST_MEETING_POINTS = 50
 
 /** The tap in result: both avatars, shared interests, prompt, streak, points and unlocks. */
 export default function TapInScreen({ me, result, prompt, promptStatus }: Props) {
   const { other, shared_interests, streak_weeks, points_earned, newly_unlocked, status } = result
   const alreadyToday = status === 'already_today'
-  const firstMeeting = !alreadyToday && streak_weeks <= 1 && points_earned >= FIRST_MEETING_POINTS
+  const firstMeeting = !alreadyToday && streak_weeks === 1 && points_earned === FIRST_MEETING_POINTS
   const myName = me?.nickname ?? 'You'
 
-  const title = firstMeeting ? "Charm'd to meet you!" : "Charm'd to see you!"
+  const title = alreadyToday ? "Already charm'd today!" : firstMeeting ? "Charm'd to meet you!" : "Charm'd to see you!"
   const [line1, line2] = alreadyToday
     ? [`${myName} and ${other.nickname} already tapped in today!`, 'Come back tomorrow for more.']
     : firstMeeting
@@ -37,8 +37,8 @@ export default function TapInScreen({ me, result, prompt, promptStatus }: Props)
     <section className={styles.screen}>
       <div className={styles.hero}>
         <h1 className={styles.title} aria-label={title}>
-          <ArcText letters={MEET_UPPER} animate />
-          <ArcText letters={firstMeeting ? MEET_LOWER : SEE_LOWER} animate />
+          <ArcText letters={alreadyToday ? ALREADY_UPPER : MEET_UPPER} animate />
+          <ArcText letters={alreadyToday ? ALREADY_LOWER : firstMeeting ? MEET_LOWER : SEE_LOWER} animate />
         </h1>
 
         {me && (
@@ -50,7 +50,7 @@ export default function TapInScreen({ me, result, prompt, promptStatus }: Props)
           <Avatar avatar={other.avatar} label={other.nickname} />
         </span>
         <img className={styles.sparkle} src="/sprites/charm/sparkle.png" alt="" />
-        {points_earned > 0 && (
+        {!alreadyToday && points_earned > 0 && (
           <p className={styles.points} aria-hidden="true">
             +{points_earned} points
           </p>
@@ -82,7 +82,7 @@ export default function TapInScreen({ me, result, prompt, promptStatus }: Props)
           <p className={styles.muted}>No shared interests yet. Go find one!</p>
         )}
 
-        {(points_earned > 0 || newly_unlocked.length > 0) && (
+        {!alreadyToday && (points_earned > 0 || newly_unlocked.length > 0) && (
           <div className={styles.rewards}>
             {points_earned > 0 && (
               <Badge variant="reward" className={styles.reward}>
@@ -106,7 +106,7 @@ export default function TapInScreen({ me, result, prompt, promptStatus }: Props)
           </span>
         </Card>
 
-        {!firstMeeting && (
+        {!alreadyToday && !firstMeeting && (
           <Button variant="pill" disabled icon={<img src={SPRITES.camera} alt="" width={30} height={24} />}>
             Snap a memory
           </Button>

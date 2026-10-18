@@ -7,9 +7,10 @@ import KeychainNotFoundScreen from '../components/keychain/KeychainNotFoundScree
 import OwnKeychainScreen from '../components/keychain/OwnKeychainScreen.tsx'
 import TapInScreen from '../components/keychain/TapInScreen.tsx'
 import Teaser from '../components/keychain/Teaser.tsx'
+import AboutStep from '../components/onboarding/AboutStep.tsx'
 import AvatarStep from '../components/onboarding/AvatarStep.tsx'
 import GreetingStep from '../components/onboarding/GreetingStep.tsx'
-import SignUpStep from '../components/onboarding/SignUpStep.tsx'
+import InterestsStep from '../components/onboarding/InterestsStep.tsx'
 import { DEFAULT_AVATAR } from '../data/profileOptions.ts'
 import { mockLocations, mockProfiles } from '../data/mock.ts'
 import type { ProfileFields } from '../hooks/useSaveProfile.ts'
@@ -29,7 +30,7 @@ const tapIn = (changes: Partial<TapInResult>): TapInResult => ({
   ...changes,
 })
 
-function Onboarding({ start }: { start: 'about' | 'avatar' | 'greeting' }) {
+function Onboarding({ start }: { start: 'about' | 'interests' | 'avatar' | 'greeting' }) {
   const [draft, setDraft] = useState<ProfileFields>({
     nickname: 'Katie Rose',
     major: 'Computer Science',
@@ -57,7 +58,12 @@ function Onboarding({ start }: { start: 'about' | 'avatar' | 'greeting' }) {
       />
     )
   }
-  return <SignUpStep draft={draft} onChange={update} onNext={noop} />
+  if (start === 'interests') {
+    return (
+      <InterestsStep interests={draft.interests} onChange={(interests) => update({ interests })} onBack={noop} onNext={noop} />
+    )
+  }
+  return <AboutStep draft={draft} onChange={update} onNext={noop} />
 }
 
 export default function ScreensPreview() {
@@ -99,6 +105,8 @@ export default function ScreensPreview() {
       return <KeychainNotFoundScreen />
     case 'teaser':
       return <Teaser owner={mockProfiles[0]} onLogIn={noop} />
+    case 'interests':
+      return <Onboarding start="interests" />
     case 'avatar':
       return <Onboarding start="avatar" />
     case 'greeting':
